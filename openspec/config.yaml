@@ -1,0 +1,38 @@
+schema: spec-driven
+
+context: |
+  Language: Spanish
+  All artifacts must be written in Spanish.
+  Keep OpenSpec structural headings and SHALL/MUST keywords in English.
+
+  Project: Voxel3D, an online store for 3D-printed items (filament), built as
+  a learning project and portfolio piece by a self-taught junior developer.
+  Read CLAUDE.md (scope, decisions, business rules), BUENAS_PRACTICAS.md
+  (conventions) and DISENO.md (approved visual identity) before planning.
+  Stack: Next.js + TypeScript + Tailwind, FastAPI, PostgreSQL, SQLAlchemy +
+  Alembic, Docker Compose, Stripe (test mode only), pytest, Vitest, Playwright.
+  Roles: guest visitor, registered customer, a single admin created from the
+  server. Everything is MVP-only unless the user explicitly says otherwise;
+  future ideas become proposal-only cards.
+  Conventions: Conventional Commits (English prefix, Spanish text); money as
+  integer cents; authorization checked on the server for every request.
+
+rules:
+  proposal:
+    - Always state what is out of scope.
+    - Say whether the change includes its screen (UI) or is backend only.
+  tasks:
+    - Break tasks into small chunks, each one testable.
+    - Include the tests as tasks, not as an afterthought.
+
+# Per-operation guidance (optional)
+# Add advisory guidance for how apply and archive work should be conducted.
+# This is separate from artifact rules above.
+# Example:
+#   operations:
+#     apply:
+#       guidance:
+#         - Keep test summaries concise
+#     archive:
+#       guidance:
+#         - Summarize the archive outcome before finishing
