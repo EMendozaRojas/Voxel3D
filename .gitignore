@@ -1,0 +1,48 @@
+# Entorno / secretos (el .env.example SÍ se versiona)
+.env
+.env.*
+!.env.example
+*.env.local
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Node / frontend (Next.js)
+node_modules/
+.next/
+out/
+next-env.d.ts
+coverage/
+*.tsbuildinfo
+
+# Tests de extremo a extremo (Playwright)
+playwright-report/
+test-results/
+
+# Imágenes subidas en desarrollo (en producción irán a un almacenamiento externo)
+backend/storage/
+
+# Claude Code: ajustes personales (los skills y comandos de OpenSpec sí se versionan)
+.claude/settings.json
+.claude/settings.local.json
+
+# Notas personales para trabajar con Claude (solo en local)
+SOBRE_MI.md
+
+# Editores / OS
+.vscode/
+.idea/
+.DS_Store
+
+# Descargas / logs de crash sueltos en la raíz (no son del proyecto)
+*.deb
+hs_err_pid*.log
