@@ -7,6 +7,9 @@ context: |
 
   Project: Voxel3D, an online store for 3D-printed items (filament), built as
   a learning project and portfolio piece by a self-taught junior developer.
+  Voxel3D is the first store built on a reusable online-store engine: theme,
+  store configuration and catalog (categories, attributes, variants) are data
+  or config, never hardcoded in the engine. See CLAUDE.md "Catálogo".
   Read CLAUDE.md (scope, decisions, business rules), BUENAS_PRACTICAS.md
   (conventions) and DISENO.md (approved visual identity) before planning.
   Stack: Next.js + TypeScript + Tailwind, FastAPI, PostgreSQL, SQLAlchemy +

@@ -1,10 +1,8 @@
 # Voxel3D
 
-> **Antes de nada, lee `SOBRE_MI.md`** (archivo local, no se sube al
-> repositorio; si no existe, aplica igualmente este resumen): la autora no viene
-> del área de IT, aprende de forma autodidacta y quiere que Claude actúe como
-> su profesor (explicaciones claras en español, sin jerga, paso a paso, y
-> **primero se habla y después se hace**).
+> **Antes de nada, lee `SOBRE_MI.md`** si existe (archivo local, no se sube al
+> repositorio): explica cómo prefiere trabajar la autora. En todo caso,
+> **primero se habla y después se hace**.
 
 ## ¿Qué hace este proyecto?
 
@@ -13,6 +11,23 @@ categorías y filtros, carrito, pago con tarjeta (Stripe, **solo en modo de
 pruebas**), inventario por variante, pedidos con estados y panel de
 administración. Se puede comprar **como invitada** (sin registrarse) o con
 cuenta.
+
+**Plantilla reutilizable de tiendas.** Voxel3D es la primera tienda construida
+sobre un **motor de tienda reutilizable**. Lo que cambia de una tienda a otra
+se separa desde el primer día:
+
+- **Tema visual:** colores, tipografías y logo en un único archivo de tema.
+- **Configuración de la tienda:** nombre, idioma, moneda, tarifa de envío y
+  textos fijos.
+- **Catálogo:** categorías, atributos (filtros y variantes) y productos son
+  **datos** que se gestionan desde el panel, nunca palabras escritas en el
+  código (ver [Catálogo](#catálogo)).
+
+El motor **no** debe contener nada propio de Voxel3D (palabras como
+"acabado" o "filamento" solo aparecen en el tema, la configuración y los datos
+iniciales). Al terminar el MVP, el repositorio se convierte en una plantilla de
+GitHub y se valida creando una segunda tienda: **Sakuribella** (bisutería kawaii). Solo
+tiendas online; no se busca servir para cualquier tipo de web.
 
 Objetivo del proyecto: proyecto de aprendizaje de desarrollo asistido por IA y
 **portafolio** (CV y GitHub) para buscar el primer empleo como desarrolladora
@@ -31,7 +46,7 @@ propuesta) que **no se implementan durante el MVP** salvo decisión explícita.
 |---|---|
 | **Visitante** (sin cuenta) | Explorar el catálogo, buscar, filtrar y ordenar; ver el detalle de un producto; añadir al carrito (temporal); comprar con envío a domicilio y pago con Stripe; consultar su pedido con un enlace firmado enviado por email; registrarse si quiere (tras comprar, solo pone una contraseña) |
 | **Cliente registrado** | Todo lo del visitante, más: iniciar sesión y recuperar la contraseña; consultar y modificar su perfil (nombre, correo con verificación, contraseña pidiendo la actual, teléfono); libreta de direcciones de envío (varias, una predeterminada); realizar pedidos con sus datos precargados; consultar su historial; cancelar un pedido pendiente; eliminar su cuenta |
-| **Administradora** (una sola) | Crear, editar y desactivar productos (nunca se borran: los pedidos antiguos los referencian); gestionar precios, variantes, stock e imágenes; gestionar categorías; ajustar stock con un motivo (queda en un historial); ver avisos de stock bajo; consultar y actualizar pedidos (también los de invitados) y cancelarlos; consultar los usuarios registrados (solo lectura) |
+| **Administradora** (una sola) | Crear, editar y desactivar productos (nunca se borran: los pedidos antiguos los referencian); gestionar precios, variantes, stock e imágenes; gestionar categorías y atributos; ajustar stock con un motivo (queda en un historial); ver avisos de stock bajo; consultar y actualizar pedidos (también los de invitados) y cancelarlos; consultar los usuarios registrados (solo lectura) |
 
 **La administradora se crea desde el servidor** con un script, nunca desde la
 web, y no habrá varios administradores.
@@ -44,20 +59,54 @@ multiidioma, doble verificación (2FA) para la administradora, página de
 
 ## Catálogo
 
-Categorías de dos niveles; cada producto tiene **una** categoría principal.
+### Modelo genérico (motor)
+
+El catálogo se define con datos, para que cada tienda lo adapte a lo que
+vende:
+
+- **Categorías:** como máximo **dos niveles** (categoría y subcategoría). Cada
+  producto tiene **una** categoría principal. Cada categoría tiene un nombre
+  y un **nombre corto** para el chip del móvil.
+- **Atributos:** características que la administradora crea desde el panel.
+  Cada atributo tiene:
+  - un **tipo**: lista de opciones (p. ej. seda, mármol…) o sí/no;
+  - **¿sale en los filtros?** sí o no;
+  - **¿crea variantes?** sí, si el cliente elige esa opción al comprar y cada
+    opción lleva su propio stock; no, si es una característica fija del
+    producto.
+
+  Los atributos son **de toda la tienda**, no de cada categoría. El panel de
+  filtros solo muestra los atributos (y opciones) que tienen los productos del
+  listado actual.
+- **Variantes:** combinación de los atributos que crean variantes. Cada una
+  tiene **su propio stock**. Un atributo de variante puede ser **opcional**
+  en un producto (p. ej. el acabado arcoíris no lleva color).
+- **Precio:** el producto tiene un precio base y una variante puede tener
+  **su propio precio**; si no lo tiene, usa el del producto.
+- **Lo que da el motor en todas las tiendas:** los filtros *Solo en stock* y
+  *Rango de precio*, y **Ordenar por** Novedades · Más vendidos (los calcula
+  el sistema) · Precio.
+
+Cada tienda arranca con su archivo de **datos iniciales** (*seed*) con sus
+categorías y atributos.
+
+### Configuración de Voxel3D (datos iniciales)
+
+Categorías:
 
 - **Decoración y hogar** (chip móvil: *Hogar*): Macetas · Organizadores de escritorio · Arte de pared
 - **Mundo animal** (*Animales*): Mascotas y figuras realistas · Criaturas fantásticas y míticas
 - **Manga, anime y geek** (*Geek*): Figuras y estatuas · Llaveros y accesorios · Bustos · Gaming y cultura pop
 - **Lámparas e iluminación** (*Lámparas*): Lámparas de litofanía · Luces de noche y de mesa
 
-**Filtros:** Acabado (seda, arcoíris, brilla en la oscuridad, mármol, madera) ·
-Material (PLA, PETG) · Color · Articulado · Solo en stock · Rango de precio.
-**Ordenar por:** Novedades · Más vendidos (los calcula el sistema) · Precio.
+Atributos:
 
-**Variantes:** cada variante de un producto tiene un **acabado** y, cuando
-aplica, un **color** (arcoíris, mármol y madera no son un color), y **su propio
-stock**.
+| Atributo | Tipo | ¿Filtro? | ¿Crea variantes? |
+|---|---|---|---|
+| Acabado (seda, arcoíris, brilla en la oscuridad, mármol, madera) | Lista | Sí | Sí |
+| Color | Lista | Sí | Sí (opcional: arcoíris, mármol y madera no son un color) |
+| Material (PLA, PETG) | Lista | Sí | No |
+| Articulado | Sí/no | Sí | No |
 
 No se usan diseños con marcas registradas en el catálogo: solo diseños
 originales o de licencia libre.
@@ -107,7 +156,7 @@ Voxel3D/
 │   │   │                #   payments, users, shipping (routers, services, models, schemas)
 │   │   └── main.py
 │   ├── alembic/         # migraciones
-│   ├── scripts/         # crear administradora, seed de datos de prueba, openapi.json
+│   ├── scripts/         # crear administradora, datos iniciales (seed) de la tienda, openapi.json
 │   ├── tests/
 │   └── Dockerfile
 └── frontend/
@@ -169,10 +218,11 @@ docker compose up --build
 
 1. `project-skeleton`: repositorio, Docker Compose, `/health`, migración
    inicial, frontend conectado, primer test, linters, pre-commit y CI.
-2. `visual-identity`: tokens de diseño, logo y componentes base de `DISENO.md`.
+2. `visual-identity`: tokens de diseño en un único archivo de tema, logo y
+   componentes base de `DISENO.md`.
 3. `users-auth-roles`: registro, login, roles y creación de la administradora.
-4. `catalog-and-products`: categorías, productos, variantes e imágenes, y su
-   gestión desde el panel.
+4. `catalog-and-products`: categorías, atributos, productos, variantes e
+   imágenes, su gestión desde el panel y los datos iniciales de Voxel3D.
 5. `cart`: carrito en servidor con cookie anónima.
 6. `guest-checkout`: compra sin cuenta, dirección y envío.
 7. `stripe-payments`: pago y webhooks.
@@ -206,11 +256,26 @@ Formato: decisión · alternativas que se miraron · por qué.
   se haga administradora y simplifica los permisos.
 - **Envío a domicilio con tarifa fija** · solo recogida, transportistas con
   seguimiento · realista para un portafolio sin complicar el MVP.
-- **Variantes con stock propio (acabado + color)** · un producto distinto por
-  color · el stock es de cada variante; es una regla de negocio más rica.
-- **Categorías de dos niveles + filtros** · "Filamentos" como categoría ·
-  seda, mármol o madera son un acabado que cualquier producto puede tener, no
-  un tema. "Novedades" y "Más vendidos" son ordenaciones calculadas.
+- **Plantilla reutilizable de tiendas online** (camino B) · construir primero
+  un motor universal, una estructura para cualquier tipo de web · se termina
+  una tienda real para el portafolio y después se valida la plantilla con una
+  segunda tienda (Sakuribella); limitarlo a tiendas evita un objetivo
+  demasiado grande.
+- **Atributos configurables desde el panel** · filtros y variantes escritos en
+  el código · así cada tienda define sus propias características (acabado en
+  Voxel3D, baño o talla en Sakuribella) sin tocar el código.
+- **Atributos de toda la tienda** · atributos ligados a cada categoría · es más
+  sencillo para la administradora y para el código; mostrar solo los filtros
+  presentes en el listado da el mismo efecto.
+- **Variantes con stock propio** · un producto distinto por color · el stock es
+  de cada variante; es una regla de negocio más rica.
+- **Precio base del producto con precio propio opcional por variante** · un
+  solo precio para todas las variantes · en Sakuribella el dorado suele costar
+  más que la plata.
+- **Categorías de dos niveles como máximo** · niveles ilimitados · basta para
+  una tienda pequeña y mantiene simple el menú del móvil. "Filamentos" no es
+  una categoría: seda, mármol o madera son un acabado que cualquier producto
+  puede tener. "Novedades" y "Más vendidos" son ordenaciones calculadas.
 - **Diseño metálico** (opción B de las maquetas) · versión simplificada
   (opción A) · es la identidad que más gusta a la autora; ver `DISENO.md`.
 - **Todo en español y precios en euros** · multiidioma · el público objetivo es
@@ -225,7 +290,7 @@ Formato: decisión · alternativas que se miraron · por qué.
 | Tema | Se decide en |
 |---|---|
 | Importe de la tarifa fija y si el envío es solo a España | `guest-checkout` |
-| Si el precio es el mismo para todas las variantes de un producto | `catalog-and-products` |
+| Nombres de los estados del pedido por tienda ("En impresión" es propio de Voxel3D) | `orders-management` |
 | Cookies `HttpOnly` o tokens para la sesión | `users-auth-roles` |
 | Plataforma de despliegue y proveedor de email real | `deployment` |
 | Logo en imagen, más fiel que el hecho con CSS | `visual-identity` |
