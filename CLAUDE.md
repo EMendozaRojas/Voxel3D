@@ -291,6 +291,7 @@ Formato: decisión · alternativas que se miraron · por qué.
 |---|---|
 | Importe de la tarifa fija y si el envío es solo a España | `guest-checkout` |
 | Nombres de los estados del pedido por tienda ("En impresión" es propio de Voxel3D) | `orders-management` |
+| Dónde vive la configuración de la tienda (moneda, tarifa de envío, aviso "Modo demostración"): `.env` o panel de administración | `guest-checkout` |
 | Cookies `HttpOnly` o tokens para la sesión | `users-auth-roles` |
 | Plataforma de despliegue y proveedor de email real | `deployment` |
 | Logo en imagen, más fiel que el hecho con CSS | `visual-identity` |

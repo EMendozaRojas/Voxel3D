@@ -42,6 +42,10 @@ El sistema SHALL publicar la documentación de la API en `/docs`, escrita en esp
 - **WHEN** se abre `http://localhost:8000/docs`
 - **THEN** el endpoint de estado aparece con resumen, descripción y etiqueta en español
 
+#### Scenario: Nombre de la tienda desde la configuración
+- **WHEN** se abre `http://localhost:8000/docs` con `STORE_NAME=Voxel3D` en la configuración
+- **THEN** el título de la documentación usa el nombre "Voxel3D", sin que esté escrito en el código
+
 #### Scenario: Contrato desactualizado
 - **WHEN** un endpoint o esquema cambia y `backend/openapi.json` no se ha regenerado
 - **THEN** un test falla indicando que el contrato está desactualizado

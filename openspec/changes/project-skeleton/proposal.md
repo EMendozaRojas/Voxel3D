@@ -19,7 +19,9 @@ primer día**.
   de datos (PostgreSQL), backend (FastAPI), frontend (Next.js) y una bandeja de
   email local (Mailhog). Las variables salen de un `.env` que nunca se sube a Git.
 - **Backend mínimo** en monolito modular, con configuración validada al arrancar
-  ("fail fast"), conexión a la base de datos y un endpoint
+  ("fail fast"), el nombre de la tienda leído de la configuración
+  (`STORE_NAME`, nunca escrito en el código, para que el motor sirva como
+  plantilla), conexión a la base de datos y un endpoint
   `GET /api/v1/health` que informa del estado del servidor y de la base de datos.
 - **Base de datos y migraciones**: Alembic configurado, una migración inicial
   (*baseline*) que se aplica sola al arrancar el backend, y tests que usan su
@@ -32,11 +34,13 @@ primer día**.
 - **Calidad desde el principio**: Ruff, mypy, ESLint y Prettier; hooks de
   pre-commit con validación de Conventional Commits; CI en GitHub Actions
   (lint, formato, tipos, vulnerabilidades, tests con cobertura mínima del 70%,
-  build y construcción de las imágenes); y Dependabot.
+  build y construcción de las imágenes); y Dependabot con las actualizaciones
+  agrupadas (un Pull Request por tipo, no uno por librería).
 - **Primeros tests**: pytest en el backend y Vitest en el frontend.
 - **Contrato de la API** versionado en `backend/openapi.json`, con un test que
   falla si no está al día.
-- **README inicial** en español y actualización de `CLAUDE.md` con cómo se
+- **README inicial** en español, que presenta el proyecto como plantilla
+  reutilizable de tiendas con Voxel3D como primera tienda, y actualización de `CLAUDE.md` con cómo se
   arranca el proyecto.
 - **Protección de la rama `main`** en GitHub: solo se une código con Pull Request
   y CI en verde (se activa cuando la CI haya pasado una vez).
@@ -50,6 +54,9 @@ Fuera de alcance (cada cosa tiene su propio change):
 - Tests de extremo a extremo con Playwright (llegan con el catálogo).
 - Despliegue en internet y despliegue automático (`deployment`).
 - Stripe y envío de emails reales.
+- El resto de la configuración de la tienda (moneda, tarifa de envío, aviso
+  "Modo demostración") y la guía "Cómo crear una tienda nueva" (al final del
+  MVP, tras crear Sakuribella).
 
 Este change incluye **backend y pantalla**, pero la pantalla es solo una portada
 provisional para comprobar la conexión.

@@ -71,6 +71,12 @@ obligatoria, con un mensaje que nombra la variable (spec `local-environment`).
 Se instancia una sola vez y se inyecta como dependencia de FastAPI para poder
 sustituirla en los tests.
 
+Incluye `STORE_NAME` (obligatoria): el nombre de la tienda que usa el título de
+la documentación de la API. El motor no escribe "Voxel3D" en ningún sitio del
+código; así sirve como plantilla para otras tiendas (Sakuribella). Como el
+título forma parte de `openapi.json`, la CI usa `STORE_NAME=Voxel3D` y una
+tienda nueva regenera su contrato al cambiar el nombre.
+
 ### 4. Base de datos: SQLAlchemy 2 síncrono + psycopg 3
 
 Motor síncrono y sesión por petición mediante una dependencia de FastAPI.
@@ -116,7 +122,8 @@ cadena de conexión.
 - `output: "standalone"` para que la imagen de producción sea mínima.
 - **TanStack Query** (decidido): un `QueryClientProvider` en un componente de
   cliente y un hook `useHealth` que pide `/health`. La portada
-  (`HealthStatus`) usa el hook y dibuja los tres estados.
+  (`HealthStatus`) usa el hook y dibuja los tres estados. Su título es
+  genérico ("Estado del servidor"), sin el nombre de la tienda.
 - Tailwind queda instalado con la configuración base; los **tokens de
   `DISENO.md` se añaden en `visual-identity`**.
 - Estructura por *features*: `src/features/health/`, `src/components/` para
@@ -168,6 +175,14 @@ Tres trabajos en paralelo:
 Permisos mínimos (`contents: read`), acciones fijadas a su versión mayor y
 Dependabot semanal para pip, npm, Docker y GitHub Actions. Todo valor secreto de
 la CI es un dato de usar y tirar, nunca uno real.
+
+Dependabot **agrupa** las actualizaciones (`groups`): un solo Pull Request por
+ecosistema y semana, en lugar de uno por librería. Con una sola persona
+revisando, muchos Pull Requests sueltos acaban ignorándose.
+
+*Alternativa:* un Pull Request por librería (comportamiento por defecto). Se
+descarta: si el agrupado rompe la CI, se excluye la librería culpable con
+`ignore` y se aceptan las demás.
 
 ### 13. Protección de `main`
 
