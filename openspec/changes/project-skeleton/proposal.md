@@ -17,7 +17,7 @@ primer día**.
 
 - **Entorno local con Docker Compose**: `docker compose up --build` levanta base
   de datos (PostgreSQL), backend (FastAPI), frontend (Next.js) y una bandeja de
-  email local (Mailhog). Las variables salen de un `.env` que nunca se sube a Git.
+  email local (Mailpit). Las variables salen de un `.env` que nunca se sube a Git.
 - **Backend mínimo** en monolito modular, con configuración validada al arrancar
   ("fail fast"), el nombre de la tienda leído de la configuración
   (`STORE_NAME`, nunca escrito en el código, para que el motor sirva como

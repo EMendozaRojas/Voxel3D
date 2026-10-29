@@ -16,7 +16,7 @@ Restricciones:
   errores conocidos (CI y hooks tardíos, migraciones en instalación limpia,
   tests sobre la base de desarrollo).
 - Los comandos de arranque, puertos y variables salen de `.env.example`
-  (frontend `3000`, backend `8000`, Mailhog `8025`, PostgreSQL `5432`).
+  (frontend `3000`, backend `8000`, Mailpit `8025`, PostgreSQL `5432`).
 
 ## Goals / Non-Goals
 
@@ -149,9 +149,9 @@ Cada Dockerfile tiene etapas `base` → `dev` y `base` → `prod`:
 - Usuario no-root en todas las etapas finales.
 - `.dockerignore` en `backend/` y `frontend/` (`.env`, `.git`, `__pycache__`,
   `node_modules`, `.next`).
-- `docker-compose.yml`: `db` (PostgreSQL 16 con *healthcheck*), `mailhog`,
+- `docker-compose.yml`: `db` (PostgreSQL 16 con *healthcheck*), `mailpit`,
   `backend` y `frontend`, con `depends_on` por salud. Puertos de `db` y
-  `mailhog` ligados a `127.0.0.1`.
+  `mailpit` ligados a `127.0.0.1`.
 
 ### 11. Pre-commit
 

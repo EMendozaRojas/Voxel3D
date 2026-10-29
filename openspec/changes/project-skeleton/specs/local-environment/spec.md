@@ -52,7 +52,7 @@ El sistema SHALL exponer la base de datos y la bandeja de email únicamente en l
 
 #### Scenario: Puertos internos no expuestos a la red
 - **WHEN** el entorno está en marcha
-- **THEN** los puertos de la base de datos y de Mailhog solo escuchan en `127.0.0.1`
+- **THEN** los puertos de la base de datos y de Mailpit solo escuchan en `127.0.0.1`
 
 ### Requirement: Contenedores sin privilegios de administrador
 El sistema SHALL ejecutar los procesos del backend y del frontend con un usuario que no sea administrador (no-root) dentro de sus contenedores.

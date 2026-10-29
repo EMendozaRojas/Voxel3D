@@ -123,13 +123,13 @@ originales o de licencia libre.
 | Autenticación | JWT + bcrypt + roles | multiusuario; detalle (cookies o tokens) en el change de autenticación |
 | Pagos | Stripe Checkout (modo de pruebas) + webhooks | la app nunca ve los datos de la tarjeta |
 | Imágenes de producto | Almacenamiento compatible con S3 | volumen local en desarrollo |
-| Email | Mailhog en local | bandeja en http://localhost:8025; nunca entrega a internet |
+| Email | Mailpit en local | bandeja en http://localhost:8025; nunca entrega a internet |
 | Tests backend | pytest | |
 | Tests frontend | Vitest + React Testing Library | |
 | Tests de extremo a extremo | Playwright | un "robot" que compra en la tienda como una persona |
 | Calidad | Ruff, mypy, ESLint, Prettier, pre-commit | desde el esqueleto, no a mitad del proyecto |
 | CI/CD | GitHub Actions + Dependabot | CI en cada push; CD (despliegue automático) en su propio change |
-| Orquestación local | Docker Compose | frontend, backend, db y mailhog |
+| Orquestación local | Docker Compose | frontend, backend, db y mailpit |
 | Despliegue | Plataforma sencilla con URL real | se elige en el change de despliegue |
 | Planificación | OpenSpec | cada cambio se planifica antes de implementarse |
 
@@ -280,6 +280,9 @@ Formato: decisión · alternativas que se miraron · por qué.
   (opción A) · es la identidad que más gusta a la autora; ver `DISENO.md`.
 - **Todo en español y precios en euros** · multiidioma · el público objetivo es
   España; el multiidioma queda como ficha futura.
+- **Mailpit como bandeja de correo local** · Mailhog (usado en ExpenseTrack) ·
+  Mailhog lleva años sin mantenimiento; Mailpit hace lo mismo con los mismos
+  puertos (8025 y 1025) y sigue recibiendo actualizaciones.
 - **Repositorio público con licencia MIT; rama principal `main`** · igual que
   ExpenseTrack, en la misma cuenta de GitHub (EMendozaRojas).
 - **Calidad y CI desde el primer change** · añadirlos a mitad del proyecto ·
