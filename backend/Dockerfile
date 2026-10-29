@@ -21,6 +21,9 @@ RUN pip install --no-cache-dir -r requirements-dev.txt
 
 COPY --chown=appuser:appuser . .
 
+# En dev, appuser necesita escribir en /app (cachés de pytest, Ruff y mypy)
+RUN chown appuser:appuser /app
+
 USER appuser
 
 EXPOSE 8000
