@@ -6,7 +6,7 @@
 - [x] 1.2 Escribir `backend/Dockerfile` con etapas `base`, `dev` y `prod` y usuario no-root; verificar que `docker build --target dev` y `--target prod` terminan sin errores y que `docker run --rm <imagen> id -u` no devuelve `0`
 - [x] 1.3 Crear `docker-compose.yml` con `db` (PostgreSQL 16, *healthcheck*) y `mailpit`, ambos con puertos en `127.0.0.1`, y copiar `.env.example` a `.env`; verificar que `docker compose up -d db mailpit` deja la base de datos en estado `healthy` y la bandeja responde en `http://localhost:8025`
 - [x] 1.4 Crear `app/core/config.py` (`Settings` con `pydantic-settings`, obligatorias validadas al importar, entre ellas `STORE_NAME`) y añadir `STORE_NAME=Voxel3D` a `.env.example`; verificar con un test que, sin `DATABASE_URL`, el error nombra la variable que falta, y que `grep -rn "Voxel3D" backend/app` no encuentra nada
-- [ ] 1.5 Crear `app/core/db.py` (motor, sesión por petición y `MetaData` con convención de nombres); verificar con un test que la sesión ejecuta `SELECT 1` contra PostgreSQL y que una restricción creada recibe el nombre de la convención
+- [x] 1.5 Crear `app/core/db.py` (motor, sesión por petición y `MetaData` con convención de nombres); verificar con un test que la sesión ejecuta `SELECT 1` contra PostgreSQL y que una restricción creada recibe el nombre de la convención
 
 ## 2. Migraciones y base de datos de tests
 
