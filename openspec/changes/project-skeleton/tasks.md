@@ -11,7 +11,7 @@
 ## 2. Migraciones y base de datos de tests
 
 - [x] 2.1 Configurar Alembic (`alembic.ini`, `env.py` leyendo `Settings` y `MetaData`) y crear la migración *baseline* vacía; verificar que `alembic upgrade head` sobre una base vacía crea `alembic_version` y que `alembic downgrade base` también funciona
-- [ ] 2.2 Añadir el servicio `backend` a `docker-compose.yml` con el comando `alembic upgrade head && uvicorn …` y dependencia de la salud de `db`; verificar que `docker compose down -v && docker compose up --build` deja el backend en marcha, y que una migración rota a propósito impide que arranque y deja el error en `docker compose logs backend` (revertir la rotura después)
+- [x] 2.2 Añadir el servicio `backend` a `docker-compose.yml` con el comando `alembic upgrade head && uvicorn …` y dependencia de la salud de `db`; verificar que `docker compose down -v && docker compose up --build` deja el backend en marcha, y que una migración rota a propósito impide que arranque y deja el error en `docker compose logs backend` (revertir la rotura después)
 - [ ] 2.3 Escribir `tests/conftest.py` con la base `<POSTGRES_DB>_test` creada y migrada en cada ejecución y cada test en una transacción con *rollback*; verificar que `docker compose exec backend pytest` pasa, que `psql -l` muestra la base de tests y que la base de desarrollo no cambia
 
 ## 3. Endpoint de estado y documentación de la API

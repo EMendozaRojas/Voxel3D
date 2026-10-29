@@ -18,6 +18,31 @@ services:
       timeout: 5s
       retries: 10
 
+  # API (FastAPI). Antes de arrancar aplica las migraciones pendientes:
+  # si una falla, el backend no arranca y el error queda en
+  # `docker compose logs backend`.
+  backend:
+    build:
+      context: ./backend
+      target: dev
+    env_file: .env
+    # Se montan solo las carpetas de código, no todo backend/: así la
+    # recarga en caliente ve los cambios sin mezclar cachés del ordenador.
+    volumes:
+      - ./backend/app:/app/app
+      - ./backend/alembic:/app/alembic
+      - ./backend/alembic.ini:/app/alembic.ini
+      - ./backend/tests:/app/tests
+      - ./backend/pyproject.toml:/app/pyproject.toml
+    ports:
+      - "127.0.0.1:8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+      mailpit:
+        condition: service_started
+    command: sh -c "alembic upgrade head && uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload"
+
   # Bandeja de correo de prueba: atrapa todos los correos, nunca los entrega.
   # Web en http://localhost:8025. El puerto SMTP (1025) solo se usa dentro
   # de la red de Docker, por eso no se publica.
