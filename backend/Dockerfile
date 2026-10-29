@@ -33,7 +33,10 @@ CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload
 # --- prod: solo lo necesario para funcionar, sin herramientas ni tests ---
 FROM base AS prod
 
-# El código pertenece a root: appuser puede leerlo, pero no modificarlo
+# El código pertenece a root: appuser puede leerlo, pero no modificarlo.
+# Las migraciones también van en prod: el servidor real las aplica al arrancar.
+COPY alembic.ini ./
+COPY alembic/ ./alembic/
 COPY app/ ./app/
 
 USER appuser
