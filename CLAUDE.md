@@ -25,9 +25,34 @@ se separa desde el primer día:
 
 El motor **no** debe contener nada propio de Voxel3D (palabras como
 "acabado" o "filamento" solo aparecen en el tema, la configuración y los datos
-iniciales). Al terminar el MVP, el repositorio se convierte en una plantilla de
-GitHub y se valida creando una segunda tienda: **Sakuribella** (bisutería kawaii). Solo
-tiendas online; no se busca servir para cualquier tipo de web.
+iniciales). Solo tiendas online; no se busca servir para cualquier tipo de web.
+
+### Padre e hijos (al terminar el MVP)
+
+```
+                 PADRE: el motor de tiendas
+     carrito · pagos · pedidos · panel · usuarios · filtros
+                          │
+         las mejoras bajan a todos los hijos
+          ┌───────────────┼───────────────┐
+          ▼               ▼               ▼
+      Voxel3D        Sakuribella     Tienda nueva
+```
+
+1. **Padre:** el motor neutro, con un tema sencillo y datos de ejemplo.
+2. **Hijos:** Voxel3D (hijo 1) y **Sakuribella** (bisutería kawaii, hijo 2),
+   que valida que el molde sirve para otra tienda.
+3. Cada hijo se crea **con un enlace a su padre** (remoto `upstream`), no con
+   el botón "Use this template" de GitHub, que crea una copia sin relación.
+   Las mejoras del padre llegan a cada hijo con `git pull upstream main`.
+4. **Regla:** lo que sirve a cualquier tienda va al **padre**; lo propio de una
+   tienda va al **hijo**. Si una mejora del motor surge trabajando en un hijo,
+   se lleva al padre (o se copia su commit con `git cherry-pick`) y desde ahí
+   llega a todos.
+
+Un hijo solo cambia su **tema** (colores, tipografías, logo), su
+**configuración** (nombre, envío, textos fijos), sus **datos iniciales**
+(categorías y atributos) y sus imágenes y productos. Nunca toca el motor.
 
 Objetivo del proyecto: proyecto de aprendizaje de desarrollo asistido por IA y
 **portafolio** (CV y GitHub) para buscar el primer empleo como desarrolladora
@@ -261,6 +286,11 @@ Formato: decisión · alternativas que se miraron · por qué.
   una tienda real para el portafolio y después se valida la plantilla con una
   segunda tienda (Sakuribella); limitarlo a tiendas evita un objetivo
   demasiado grande.
+- **Padre neutro con hijos enlazados por `upstream`** · que Voxel3D sea el
+  padre, botón "Use this template", el motor como librería instalable · un
+  padre con el tema de Voxel3D obligaría a cada hijo a borrarlo y chocaría con
+  su diseño; la plantilla de GitHub no deja pasar mejoras a los hijos; una
+  librería versionada es demasiado compleja para este proyecto.
 - **Atributos configurables desde el panel** · filtros y variantes escritos en
   el código · así cada tienda define sus propias características (acabado en
   Voxel3D, baño o talla en Sakuribella) sin tocar el código.
