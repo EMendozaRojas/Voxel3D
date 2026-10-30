@@ -15,10 +15,12 @@ os.environ["DATABASE_URL"] = _test_url.render_as_string(hide_password=False)
 import pytest  # noqa: E402
 from alembic import command  # noqa: E402
 from alembic.config import Config  # noqa: E402
+from fastapi.testclient import TestClient  # noqa: E402
 from sqlalchemy import create_engine, text  # noqa: E402
 from sqlalchemy.orm import Session  # noqa: E402
 
-from app.core.db import engine  # noqa: E402
+from app.core.db import engine, get_db  # noqa: E402
+from app.main import app  # noqa: E402
 
 ALEMBIC_INI = Path(__file__).resolve().parents[1] / "alembic.ini"
 
@@ -60,3 +62,12 @@ def db_session() -> Generator[Session, None, None]:
         finally:
             session.close()
             transaction.rollback()
+
+
+@pytest.fixture
+def client(db_session: Session) -> Generator[TestClient, None, None]:
+    """Cliente HTTP de la API que usa la sesión de `db_session` en cada petición."""
+    app.dependency_overrides[get_db] = lambda: db_session
+    with TestClient(app) as test_client:
+        yield test_client
+    app.dependency_overrides.clear()

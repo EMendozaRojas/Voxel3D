@@ -16,7 +16,7 @@
 
 ## 3. Endpoint de estado y documentación de la API
 
-- [ ] 3.1 Crear el módulo `modules/health` con `GET /api/v1/health` (`SELECT 1`, `200` / `503`, sin datos de conexión en la respuesta); verificar con tests de `200 {"status":"ok","database":"ok"}`, de `503` con la base caída y de que el cuerpo del `503` no contiene la URL de conexión
+- [x] 3.1 Crear el módulo `modules/health` con `GET /api/v1/health` (`SELECT 1`, `200` / `503`, sin datos de conexión en la respuesta); verificar con tests de `200 {"status":"ok","database":"ok"}`, de `503` con la base caída y de que el cuerpo del `503` no contiene la URL de conexión
 - [ ] 3.2 Configurar CORS con los orígenes de `BACKEND_CORS_ORIGINS`; verificar con tests que `http://localhost:3000` recibe las cabeceras de permiso y que un origen no configurado no las recibe
 - [ ] 3.3 Añadir metadatos OpenAPI en español (título a partir de `STORE_NAME`, descripción, etiqueta, resumen y errores) y un script `scripts/export_openapi` que genera `backend/openapi.json`; verificar con un test que falla si el archivo versionado no coincide con el generado, que el endpoint aparece en `/docs` con resumen y etiqueta en español, y con un test que el título cambia al cambiar `STORE_NAME`
 
