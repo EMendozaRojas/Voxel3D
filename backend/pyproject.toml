@@ -11,6 +11,10 @@ extend-exclude = ["alembic/versions"]
 [tool.ruff.lint]
 select = ["E", "F", "W", "I", "UP", "B", "SIM"]
 
+[tool.ruff.lint.isort]
+# `alembic` es la librería, aunque exista también la carpeta backend/alembic/
+known-third-party = ["alembic"]
+
 [tool.mypy]
 python_version = "3.12"
 plugins = ["pydantic.mypy"]

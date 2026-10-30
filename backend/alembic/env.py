@@ -1,15 +1,17 @@
 from logging.config import fileConfig
 
+from alembic import context
 from sqlalchemy import create_engine, pool
 
-from alembic import context
 from app.core.config import get_settings
 from app.core.db import Base
 
 config = context.config
 
 if config.config_file_name is not None:
-    fileConfig(config.config_file_name)
+    # disable_existing_loggers=False: al migrar desde los tests (conftest.py),
+    # no apaga los loggers que ya existen, como los de pytest.
+    fileConfig(config.config_file_name, disable_existing_loggers=False)
 
 # Las tablas que Alembic compara con la base al generar migraciones
 # (`alembic revision --autogenerate`). Usa la convención de nombres de db.py.
