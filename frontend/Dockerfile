@@ -18,8 +18,9 @@ FROM deps AS dev
 COPY . .
 
 # La imagen trae el usuario `node`, sin permisos de administrador. Necesita
-# escribir en /app (carpeta .next, cachés de tests).
-RUN chown -R node:node /app
+# escribir en /app (carpeta .next, cachés de tests). .next se crea aquí para
+# que el volumen de docker-compose herede este dueño y no el de root.
+RUN mkdir -p .next && chown -R node:node /app
 
 USER node
 

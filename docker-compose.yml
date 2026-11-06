@@ -54,12 +54,15 @@ services:
     # tener las contraseñas del backend.
     environment:
       NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL}
-    # Se monta solo el código; node_modules y .next se quedan en la imagen.
-    # Si cambias package.json o un archivo de configuración, reconstruye con
-    # `docker compose up -d --build frontend`.
+    # Se monta todo frontend/ (así ESLint, Prettier y los tests ven siempre
+    # tu versión de cada archivo), salvo node_modules y .next, que se quedan
+    # en volúmenes propios del contenedor y no se mezclan con el ordenador.
+    # Si cambias package.json, reconstruye y renueva esos volúmenes con
+    # `docker compose up -d --build -V frontend`.
     volumes:
-      - ./frontend/src:/app/src
-      - ./frontend/public:/app/public
+      - ./frontend:/app
+      - /app/node_modules
+      - /app/.next
     ports:
       - "127.0.0.1:3000:3000"
     depends_on:
