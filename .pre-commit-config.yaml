@@ -1,6 +1,10 @@
 # Revisiones automáticas antes de cada commit. Se instalan una vez con:
 #   pre-commit install --hook-type pre-commit --hook-type commit-msg
 # y se pueden lanzar a mano con `pre-commit run --all-files`.
+# Por defecto, cada hook solo revisa el código antes del commit. Sin esto,
+# también se repetirían al revisar el mensaje (commit-msg).
+default_stages: [pre-commit]
+
 repos:
   # Chequeos genéricos
   - repo: https://github.com/pre-commit/pre-commit-hooks
