@@ -45,6 +45,27 @@ services:
         condition: service_started
     command: sh -c "alembic upgrade head && uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload"
 
+  # Web (Next.js) en http://localhost:3000, con recarga en caliente.
+  frontend:
+    build:
+      context: ./frontend
+      target: dev
+    # Solo la variable que necesita, no todo el .env: el frontend no debe
+    # tener las contraseñas del backend.
+    environment:
+      NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL}
+    # Se monta solo el código; node_modules y .next se quedan en la imagen.
+    # Si cambias package.json o un archivo de configuración, reconstruye con
+    # `docker compose up -d --build frontend`.
+    volumes:
+      - ./frontend/src:/app/src
+      - ./frontend/public:/app/public
+    ports:
+      - "127.0.0.1:3000:3000"
+    depends_on:
+      backend:
+        condition: service_started
+
   # Bandeja de correo de prueba: atrapa todos los correos, nunca los entrega.
   # Web en http://localhost:8025. El puerto SMTP (1025) solo se usa dentro
   # de la red de Docker, por eso no se publica.

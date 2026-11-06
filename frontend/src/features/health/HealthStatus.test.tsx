@@ -3,6 +3,8 @@ import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi } from "vitest";
 
+import { API_BASE_URL } from "@/lib/api";
+
 import { HealthStatus } from "./HealthStatus";
 
 const CONECTADO = /conectado: el servidor funciona/i;
@@ -51,7 +53,7 @@ describe("HealthStatus", () => {
     renderHealthStatus();
 
     expect(await screen.findByText(CONECTADO)).toBeInTheDocument();
-    expect(fetchMock).toHaveBeenCalledWith("http://localhost:8000/api/v1/health");
+    expect(fetchMock).toHaveBeenCalledWith(`${API_BASE_URL}/health`);
     expect(screen.queryByRole("button", { name: "Reintentar" })).not.toBeInTheDocument();
   });
 
