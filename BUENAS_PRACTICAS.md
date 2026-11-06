@@ -154,8 +154,10 @@ objetivos táctiles de al menos 44 px y navegación completa con teclado.
 - **Ramas y Pull Requests** aunque trabaje sola (`feat/catalogo`,
   `fix/webhook-duplicado`). La rama `main` siempre funciona y estará
   protegida: no se une nada sin pasar la CI.
-- **Un change de OpenSpec = tres commits:** `docs: plan <change>`, el código
-  (`feat:`) y `docs: archiva <change>`.
+- **Un change de OpenSpec empieza con `docs: plan <change>` y termina con
+  `docs: archiva <change>`.** En medio van los commits pequeños de cada
+  tarea, que se conservan al unir la rama (Pull Request con *merge commit*,
+  sin aplastarlos): así la historia muestra cómo se hizo cada paso y por qué.
 - Commits pequeños y con un solo propósito.
 - **Pre-commit hooks** ([pre-commit](https://pre-commit.com/)): corren Ruff,
   mypy, ESLint, Prettier y la validación de Conventional Commits antes de cada
