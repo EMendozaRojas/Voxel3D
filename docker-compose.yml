@@ -1,0 +1,81 @@
+services:
+  # Base de datos. Los datos viven en el volumen `db-data`:
+  # sobreviven a `docker compose down` y solo se borran con `down -v`.
+  db:
+    image: postgres:16.15
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    # Solo accesible desde este ordenador (127.0.0.1), no desde la red
+    ports:
+      - "127.0.0.1:${POSTGRES_PORT}:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  # API (FastAPI). Antes de arrancar aplica las migraciones pendientes:
+  # si una falla, el backend no arranca y el error queda en
+  # `docker compose logs backend`.
+  backend:
+    build:
+      context: ./backend
+      target: dev
+    env_file: .env
+    # Se montan solo las carpetas de código, no todo backend/: así la
+    # recarga en caliente ve los cambios sin mezclar cachés del ordenador.
+    volumes:
+      - ./backend/app:/app/app
+      - ./backend/alembic:/app/alembic
+      - ./backend/alembic.ini:/app/alembic.ini
+      - ./backend/tests:/app/tests
+      - ./backend/scripts:/app/scripts
+      - ./backend/pyproject.toml:/app/pyproject.toml
+      - ./backend/openapi.json:/app/openapi.json
+    ports:
+      - "127.0.0.1:8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+      mailpit:
+        condition: service_started
+    command: sh -c "alembic upgrade head && uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload"
+
+  # Web (Next.js) en http://localhost:3000, con recarga en caliente.
+  frontend:
+    build:
+      context: ./frontend
+      target: dev
+    # Solo la variable que necesita, no todo el .env: el frontend no debe
+    # tener las contraseñas del backend.
+    environment:
+      NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL}
+    # Se monta todo frontend/ (así ESLint, Prettier y los tests ven siempre
+    # tu versión de cada archivo), salvo node_modules y .next, que se quedan
+    # en volúmenes propios del contenedor y no se mezclan con el ordenador.
+    # Si cambias package.json, reconstruye y renueva esos volúmenes con
+    # `docker compose up -d --build -V frontend`.
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+      - /app/.next
+    ports:
+      - "127.0.0.1:3000:3000"
+    depends_on:
+      backend:
+        condition: service_started
+
+  # Bandeja de correo de prueba: atrapa todos los correos, nunca los entrega.
+  # Web en http://localhost:8025. El puerto SMTP (1025) solo se usa dentro
+  # de la red de Docker, por eso no se publica.
+  mailpit:
+    image: axllent/mailpit:v1.32.0
+    ports:
+      - "127.0.0.1:8025:8025"
+
+volumes:
+  db-data:

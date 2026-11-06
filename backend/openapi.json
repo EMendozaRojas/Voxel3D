@@ -1,0 +1,84 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "API de Voxel3D",
+    "description": "\nAPI REST de la tienda online: catálogo, carrito, pedidos, pagos e inventario.\n\n## Convenciones\n\n- Todas las rutas cuelgan de `/api/v1`.\n- Textos y mensajes en español.\n",
+    "version": "0.1.0"
+  },
+  "paths": {
+    "/api/v1/health": {
+      "get": {
+        "tags": [
+          "Estado"
+        ],
+        "summary": "Comprobar el estado del servidor",
+        "description": "Comprueba que el servidor responde y que puede hablar con la base de datos. No necesita autenticación. Nunca muestra datos de la conexión.",
+        "operationId": "health_api_v1_health_get",
+        "responses": {
+          "200": {
+            "description": "El servidor y la base de datos funcionan.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HealthResponse"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "La base de datos no responde.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HealthResponse"
+                },
+                "example": {
+                  "status": "error",
+                  "database": "unavailable"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "HealthResponse": {
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": [
+              "ok",
+              "error"
+            ],
+            "title": "Status",
+            "description": "Estado general del servidor."
+          },
+          "database": {
+            "type": "string",
+            "enum": [
+              "ok",
+              "unavailable"
+            ],
+            "title": "Database",
+            "description": "Estado de la conexión con la base de datos."
+          }
+        },
+        "type": "object",
+        "required": [
+          "status",
+          "database"
+        ],
+        "title": "HealthResponse"
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "Estado",
+      "description": "Comprobar que el servidor está en marcha y conectado a la base de datos."
+    }
+  ]
+}

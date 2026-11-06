@@ -25,20 +25,51 @@ se separa desde el primer día:
 
 El motor **no** debe contener nada propio de Voxel3D (palabras como
 "acabado" o "filamento" solo aparecen en el tema, la configuración y los datos
-iniciales). Al terminar el MVP, el repositorio se convierte en una plantilla de
-GitHub y se valida creando una segunda tienda: **Sakuribella** (bisutería kawaii). Solo
-tiendas online; no se busca servir para cualquier tipo de web.
+iniciales). Solo tiendas online; no se busca servir para cualquier tipo de web.
+
+### Padre e hijos (al terminar el MVP)
+
+```
+              PADRE: Chasis, el motor de tiendas
+     carrito · pagos · pedidos · panel · usuarios · filtros
+                          │
+         las mejoras bajan a todos los hijos
+          ┌───────────────┼───────────────┐
+          ▼               ▼               ▼
+      Voxel3D        Sakuribella     Tienda nueva
+```
+
+1. **Padre:** **Chasis**, el motor neutro, con un tema sencillo y datos de
+   ejemplo. Como el chasis de un coche: el mismo esqueleto con distinta
+   carrocería encima. El nombre del repositorio va sin tilde.
+2. **Hijos:** Voxel3D (hijo 1) y **Sakuribella** (bisutería kawaii, hijo 2),
+   que valida que el molde sirve para otra tienda.
+3. Cada hijo se crea **con un enlace a su padre** (remoto `upstream`), no con
+   el botón "Use this template" de GitHub, que crea una copia sin relación.
+   Las mejoras del padre llegan a cada hijo con `git pull upstream main`.
+4. **Regla:** lo que sirve a cualquier tienda va al **padre**; lo propio de una
+   tienda va al **hijo**. Si una mejora del motor surge trabajando en un hijo,
+   se lleva al padre (o se copia su commit con `git cherry-pick`) y desde ahí
+   llega a todos.
+
+Un hijo solo cambia su **tema** (colores, tipografías, logo), su
+**configuración** (nombre, envío, textos fijos), sus **datos iniciales**
+(categorías y atributos) y sus imágenes y productos. Nunca toca el motor.
 
 Objetivo del proyecto: proyecto de aprendizaje de desarrollo asistido por IA y
 **portafolio** (CV y GitHub) para buscar el primer empleo como desarrolladora
 junior en Madrid. Por eso se usan herramientas que se piden en ofertas junior,
 sin sobreingeniería.
 
-**Estado:** Fase 0 (preparación). Todavía no hay código. Siguientes pasos:
-`openspec init` y el primer change, `project-skeleton` (el esqueleto que
-arranca con un comando). Cómo funciona cada parte, cuando exista, estará en
-`openspec/specs/`; las ideas futuras, en `openspec/changes/` como fichas (solo
-propuesta) que **no se implementan durante el MVP** salvo decisión explícita.
+**Estado:** esqueleto técnico (`project-skeleton`) terminado y archivado:
+base de datos con migraciones, API con `GET /api/v1/health` documentada,
+portada que muestra si hay conexión con la API, tests con cobertura,
+pre-commit, CI, Dependabot y `main` protegida. Todavía no hay ninguna regla de
+negocio. Siguiente change: `visual-identity`. Cómo funciona hoy cada parte
+está en `openspec/specs/` (de momento: `local-environment`, `quality-gates` y
+`service-health`); los changes terminados, en `openspec/changes/archive/`; las
+ideas futuras, en `openspec/changes/` como fichas (solo propuesta) que **no se
+implementan durante el MVP** salvo decisión explícita.
 
 ## Alcance del MVP
 
@@ -123,57 +154,73 @@ originales o de licencia libre.
 | Autenticación | JWT + bcrypt + roles | multiusuario; detalle (cookies o tokens) en el change de autenticación |
 | Pagos | Stripe Checkout (modo de pruebas) + webhooks | la app nunca ve los datos de la tarjeta |
 | Imágenes de producto | Almacenamiento compatible con S3 | volumen local en desarrollo |
-| Email | Mailhog en local | bandeja en http://localhost:8025; nunca entrega a internet |
+| Email | Mailpit en local | bandeja en http://localhost:8025; nunca entrega a internet |
 | Tests backend | pytest | |
 | Tests frontend | Vitest + React Testing Library | |
 | Tests de extremo a extremo | Playwright | un "robot" que compra en la tienda como una persona |
 | Calidad | Ruff, mypy, ESLint, Prettier, pre-commit | desde el esqueleto, no a mitad del proyecto |
 | CI/CD | GitHub Actions + Dependabot | CI en cada push; CD (despliegue automático) en su propio change |
-| Orquestación local | Docker Compose | frontend, backend, db y mailhog |
+| Orquestación local | Docker Compose | frontend, backend, db y mailpit |
 | Despliegue | Plataforma sencilla con URL real | se elige en el change de despliegue |
 | Planificación | OpenSpec | cada cambio se planifica antes de implementarse |
 
 En el ordenador de la autora **no hay Node.js instalado**: el frontend corre
 dentro de Docker, igual que en ExpenseTrack.
 
-## Estructura de carpetas (prevista)
+## Estructura de carpetas
+
+Lo marcado con *(llegará)* aún no existe; se crea en el change indicado.
 
 ```
 Voxel3D/
-├── CLAUDE.md
-├── BUENAS_PRACTICAS.md
-├── DISENO.md
-├── docker-compose.yml
-├── .env.example
-├── LICENSE              # MIT
+├── CLAUDE.md · BUENAS_PRACTICAS.md · DISENO.md · README.md · LICENSE (MIT)
+├── docker-compose.yml   # db, backend, frontend y mailpit
+├── .env.example         # plantilla de configuración, sin secretos
+├── .pre-commit-config.yaml
+├── .github/
+│   ├── workflows/ci.yml # trabajos backend, frontend y docker
+│   └── dependabot.yml
+├── scripts/openspec.sh  # el CLI de OpenSpec dentro de Docker (sin Node en el ordenador)
 ├── openspec/
 │   ├── specs/           # cómo funciona hoy cada parte (fuente de verdad)
 │   └── changes/         # mejoras pendientes; archive/ = changes ya hechos
 ├── backend/
 │   ├── app/
-│   │   ├── core/        # config, base de datos, seguridad, metadatos OpenAPI
-│   │   ├── modules/     # un módulo por tema: catalog, cart, orders, inventory,
-│   │   │                #   payments, users, shipping (routers, services, models, schemas)
+│   │   ├── core/        # config.py (ajustes), db.py (motor y sesión), openapi.py (metadatos)
+│   │   ├── modules/     # un módulo por tema; hoy solo health/. (llegará: catalog,
+│   │   │                #   cart, orders, inventory, payments, users, shipping)
 │   │   └── main.py
-│   ├── alembic/         # migraciones
-│   ├── scripts/         # crear administradora, datos iniciales (seed) de la tienda, openapi.json
+│   ├── alembic/         # migraciones (hoy, la baseline vacía)
+│   ├── scripts/         # export_openapi.py. (llegará: crear administradora, datos iniciales)
 │   ├── tests/
-│   └── Dockerfile
+│   ├── openapi.json     # contrato de la API; un test falla si no está al día
+│   ├── pyproject.toml   # Ruff, mypy, pytest y cobertura
+│   ├── requirements.txt · requirements-dev.txt
+│   └── Dockerfile       # etapas base, dev y prod
 └── frontend/
     ├── src/
-    │   ├── app/         # rutas de Next.js
-    │   ├── features/    # catalog, cart, checkout, account, admin...
-    │   └── components/  # piezas compartidas
-    ├── e2e/             # tests de Playwright
-    └── Dockerfile
+    │   ├── app/         # rutas de Next.js (portada, layout)
+    │   ├── features/    # una carpeta por funcionalidad; hoy solo health/
+    │   ├── components/  # piezas compartidas (Providers de TanStack Query)
+    │   ├── lib/         # api.ts: dirección de la API
+    │   └── test/        # preparación común de los tests de Vitest
+    ├── e2e/             # (llegará) tests de Playwright
+    ├── AGENTS.md        # aviso de Next.js: leer su documentación en node_modules
+    ├── vitest.config.mts
+    └── Dockerfile       # etapas base, deps, dev, builder y prod (standalone)
 ```
 
 ## Reglas de negocio importantes
 
-- **Inventario:** el stock es de cada variante. Al pagar, se comprueba y se
-  descuenta dentro de una transacción de base de datos con bloqueo de fila,
-  para que dos personas no compren la última unidad a la vez. Todo cambio de
-  stock queda en un historial de movimientos con su motivo.
+- **Inventario:** el stock es de cada variante. Al pulsar "Ir a pagar", el
+  stock se **aparta unos minutos** (reserva con caducidad), porque el cobro
+  ocurre fuera de la web, en Stripe, y sin reserva dos personas podrían pagar
+  la última unidad. La reserva se crea dentro de una transacción de base de
+  datos con bloqueo de fila. Si el pago se confirma, el stock se descuenta; si
+  la reserva caduca o el pago falla, las unidades vuelven a estar libres. Los
+  detalles (minutos, qué pasa si se paga tarde) se deciden en la spec de
+  pagos. Todo cambio de stock queda en un historial de movimientos con su
+  motivo.
 - **Pagos:** el pedido se crea como "pendiente de pago" y solo pasa a
   "pagado" cuando llega el **webhook** firmado de Stripe. El webhook es
   idempotente: si Stripe avisa dos veces del mismo pago, el pedido se procesa
@@ -206,13 +253,47 @@ Voxel3D/
 
 ## Cómo se corre en local
 
-*(Se completará con el change `project-skeleton`.)* La meta es que arrancar
-todo sea siempre:
+En el ordenador solo hacen falta **Git, Docker y pre-commit**. Todo lo demás
+corre en contenedores.
 
 ```bash
-cp .env.example .env
-docker compose up --build
+cp .env.example .env          # solo la primera vez
+docker compose up --build     # web :3000, API :8000/docs, Mailpit :8025
+docker compose down           # parar (los datos se conservan)
+docker compose down -v        # empezar de cero (borra la base de datos)
 ```
+
+Tests y calidad (con el proyecto arrancado):
+
+```bash
+docker compose exec backend pytest --cov
+docker compose exec backend ruff check . && docker compose exec backend ruff format --check .
+docker compose exec backend mypy app tests scripts
+docker compose exec frontend npm run test:coverage
+docker compose exec frontend npm run lint && docker compose exec frontend npm run format:check
+docker compose exec backend python -m scripts.export_openapi   # regenerar openapi.json
+pre-commit run --all-files
+```
+
+Cosas que conviene saber:
+
+- **ExpenseTrack usa los mismos puertos** (5432, 8000, 8025): apagarlo con
+  `docker compose stop` en su carpeta antes de arrancar Voxel3D.
+- **Commits:** los hooks de mypy, ESLint y Prettier corren dentro de los
+  contenedores, así que hay que tener el proyecto arrancado.
+- **Backend:** `alembic.ini` y `pyproject.toml` se montan como archivos
+  sueltos; tras editarlos, `docker compose up -d --force-recreate backend`.
+- **Frontend:** se monta toda la carpeta, salvo `node_modules` y `.next`, que
+  viven en volúmenes del contenedor. Tras cambiar `package.json`,
+  `docker compose up -d --build -V frontend` (`-V` renueva esos volúmenes).
+- **Instalar librerías de Node** sin Node en el ordenador:
+  `docker compose exec frontend npm install <paquete>` y después reconstruir.
+- **Next.js 16** cambia rápido: antes de escribir código de Next, leer la guía
+  correspondiente en `frontend/node_modules/next/dist/docs/` (lo pide
+  `frontend/AGENTS.md`).
+- **`NEXT_PUBLIC_API_URL`** se escribe dentro del código al construir la
+  imagen de producción: para otra dirección hay que reconstruirla.
+- **OpenSpec:** `./scripts/openspec.sh <comando>`.
 
 ## Plan de changes (orden previsto)
 
@@ -261,6 +342,11 @@ Formato: decisión · alternativas que se miraron · por qué.
   una tienda real para el portafolio y después se valida la plantilla con una
   segunda tienda (Sakuribella); limitarlo a tiendas evita un objetivo
   demasiado grande.
+- **Padre neutro con hijos enlazados por `upstream`** · que Voxel3D sea el
+  padre, botón "Use this template", el motor como librería instalable · un
+  padre con el tema de Voxel3D obligaría a cada hijo a borrarlo y chocaría con
+  su diseño; la plantilla de GitHub no deja pasar mejoras a los hijos; una
+  librería versionada es demasiado compleja para este proyecto.
 - **Atributos configurables desde el panel** · filtros y variantes escritos en
   el código · así cada tienda define sus propias características (acabado en
   Voxel3D, baño o talla en Sakuribella) sin tocar el código.
@@ -280,6 +366,9 @@ Formato: decisión · alternativas que se miraron · por qué.
   (opción A) · es la identidad que más gusta a la autora; ver `DISENO.md`.
 - **Todo en español y precios en euros** · multiidioma · el público objetivo es
   España; el multiidioma queda como ficha futura.
+- **Mailpit como bandeja de correo local** · Mailhog (usado en ExpenseTrack) ·
+  Mailhog lleva años sin mantenimiento; Mailpit hace lo mismo con los mismos
+  puertos (8025 y 1025) y sigue recibiendo actualizaciones.
 - **Repositorio público con licencia MIT; rama principal `main`** · igual que
   ExpenseTrack, en la misma cuenta de GitHub (EMendozaRojas).
 - **Calidad y CI desde el primer change** · añadirlos a mitad del proyecto ·
@@ -291,6 +380,7 @@ Formato: decisión · alternativas que se miraron · por qué.
 |---|---|
 | Importe de la tarifa fija y si el envío es solo a España | `guest-checkout` |
 | Nombres de los estados del pedido por tienda ("En impresión" es propio de Voxel3D) | `orders-management` |
+| Dónde vive la configuración de la tienda (moneda, tarifa de envío, aviso "Modo demostración"): `.env` o panel de administración | `guest-checkout` |
 | Cookies `HttpOnly` o tokens para la sesión | `users-auth-roles` |
 | Plataforma de despliegue y proveedor de email real | `deployment` |
 | Logo en imagen, más fiel que el hecho con CSS | `visual-identity` |

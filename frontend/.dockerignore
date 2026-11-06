@@ -1,0 +1,19 @@
+# Secretos: nunca dentro de la imagen
+.env
+.env.*
+
+# Git
+.git/
+
+# Dependencias y resultados de compilación: se generan dentro de la imagen
+node_modules/
+.next/
+out/
+
+# Informes de tests y cobertura
+coverage/
+playwright-report/
+test-results/
+
+# Cachés de TypeScript
+*.tsbuildinfo

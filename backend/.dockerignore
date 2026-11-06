@@ -1,0 +1,19 @@
+# Secretos: nunca dentro de la imagen
+.env
+.env.*
+
+# Git
+.git/
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Cachés de herramientas e informes de cobertura
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+.coverage
+htmlcov/

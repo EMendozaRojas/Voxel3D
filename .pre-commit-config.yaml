@@ -1,0 +1,63 @@
+# Revisiones automáticas antes de cada commit. Se instalan una vez con:
+#   pre-commit install --hook-type pre-commit --hook-type commit-msg
+# y se pueden lanzar a mano con `pre-commit run --all-files`.
+# Por defecto, cada hook solo revisa el código antes del commit. Sin esto,
+# también se repetirían al revisar el mensaje (commit-msg).
+default_stages: [pre-commit]
+
+repos:
+  # Chequeos genéricos
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-json
+      - id: check-added-large-files
+        args: [--maxkb=1000]
+      - id: check-merge-conflict
+      - id: detect-private-key
+
+  # Backend: lint y formato (Python). Misma versión que requirements-dev.txt,
+  # para que el ordenador y el contenedor opinen igual sobre el código.
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.17.2
+    hooks:
+      - id: ruff-check
+        args: [--fix]
+        files: ^backend/
+      - id: ruff-format
+        files: ^backend/
+
+  # Hooks que necesitan las librerías del proyecto (mypy) o Node (ESLint,
+  # Prettier): corren dentro de los contenedores, porque en el ordenador no
+  # hay Node ni las dependencias del backend. Requieren `docker compose up -d`.
+  - repo: local
+    hooks:
+      - id: mypy
+        name: mypy (backend, en el contenedor)
+        entry: docker compose exec -T backend mypy app tests scripts
+        language: system
+        files: ^backend/.*\.py$
+        pass_filenames: false
+      - id: eslint
+        name: eslint (frontend, en el contenedor)
+        entry: docker compose exec -T frontend npm run lint
+        language: system
+        files: ^frontend/.*\.(ts|tsx|js|mjs|mts)$
+        pass_filenames: false
+      - id: prettier
+        name: prettier (frontend, en el contenedor)
+        entry: docker compose exec -T frontend npm run format:check
+        language: system
+        # Cualquier archivo del frontend: Prettier revisa también .md, .mjs...
+        files: ^frontend/
+        pass_filenames: false
+
+  # Mensajes de commit: Conventional Commits (feat:, fix:, docs:...)
+  - repo: https://github.com/compilerla/conventional-pre-commit
+    rev: v4.5.0
+    hooks:
+      - id: conventional-pre-commit
+        stages: [commit-msg]
