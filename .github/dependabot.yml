@@ -1,0 +1,66 @@
+# Dependabot revisa cada semana si hay versiones nuevas y abre Pull Requests
+# agrupados: uno por ecosistema, en lugar de uno por librería. La CI prueba
+# cada propuesta antes de aceptarla.
+#
+# No propone los cambios que son decisiones del proyecto (se hacen a mano,
+# junto con la CI y la configuración): la versión grande de PostgreSQL (exige
+# migrar los datos), la de Python y la de Node.
+version: 2
+
+updates:
+  - package-ecosystem: pip
+    directory: /backend
+    schedule: &semanal
+      interval: weekly
+      day: monday
+      time: "08:00"
+      timezone: Europe/Madrid
+    commit-message: &mensaje
+      prefix: build
+      include: scope
+    groups:
+      backend:
+        patterns: ["*"]
+
+  - package-ecosystem: npm
+    directory: /frontend
+    schedule: *semanal
+    commit-message: *mensaje
+    groups:
+      frontend:
+        patterns: ["*"]
+
+  # Imágenes base de los Dockerfile
+  - package-ecosystem: docker
+    directories: [/backend, /frontend]
+    schedule: *semanal
+    commit-message: *mensaje
+    groups:
+      docker:
+        patterns: ["*"]
+    ignore:
+      # python:3.12 -> 3.13 también cambia la CI, Ruff y mypy
+      - dependency-name: python
+        update-types: [version-update:semver-major, version-update:semver-minor]
+      - dependency-name: node
+        update-types: [version-update:semver-major]
+
+  # Imágenes de docker-compose.yml (PostgreSQL y Mailpit)
+  - package-ecosystem: docker-compose
+    directory: /
+    schedule: *semanal
+    commit-message: *mensaje
+    groups:
+      docker-compose:
+        patterns: ["*"]
+    ignore:
+      - dependency-name: postgres
+        update-types: [version-update:semver-major]
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule: *semanal
+    commit-message: *mensaje
+    groups:
+      github-actions:
+        patterns: ["*"]

@@ -37,7 +37,7 @@
 
 - [x] 6.1 Crear `.pre-commit-config.yaml` (chequeos genéricos, Ruff, mypy, ESLint y Prettier en contenedor, y Conventional Commits) e instalarlo con `pre-commit install --hook-type pre-commit --hook-type commit-msg`; verificar que `pre-commit run --all-files` pasa, que un mensaje como "arreglos varios" se rechaza y que un archivo con mal formato se rechaza
 - [x] 6.2 Crear `.github/workflows/ci.yml` con los trabajos `backend` (Ruff, formato, mypy, `pip-audit`, pytest con PostgreSQL vacío y cobertura ≥ 70%), `frontend` (ESLint, Prettier, Vitest con cobertura y `next build`) y `docker` (construcción de ambas imágenes con `--target prod`); verificar que el YAML es válido (`pre-commit` con `check-yaml`) y que la ejecución en GitHub termina en verde (tarea 8.1)
-- [ ] 6.3 Crear `.github/dependabot.yml` con revisión semanal de `pip`, `npm`, `docker` y `github-actions`, con las actualizaciones agrupadas (`groups`: un Pull Request por ecosistema); verificar que el YAML es válido y que Dependabot aparece activo en la configuración del repositorio
+- [x] 6.3 Crear `.github/dependabot.yml` con revisión semanal de `pip`, `npm`, `docker` y `github-actions`, con las actualizaciones agrupadas (`groups`: un Pull Request por ecosistema); verificar que el YAML es válido y que Dependabot aparece activo en la configuración del repositorio
 
 ## 7. Documentación
 
