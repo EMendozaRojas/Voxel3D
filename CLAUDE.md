@@ -61,14 +61,15 @@ Objetivo del proyecto: proyecto de aprendizaje de desarrollo asistido por IA y
 junior en Madrid. Por eso se usan herramientas que se piden en ofertas junior,
 sin sobreingeniería.
 
-**Estado:** esqueleto técnico (`project-skeleton`) implementado en la rama
-`feat/project-skeleton`: base de datos con migraciones, API con
-`GET /api/v1/health` documentada, portada que muestra si hay conexión con la
-API, tests con cobertura, pre-commit, CI y Dependabot. Todavía no hay ninguna
-regla de negocio. Siguiente change: `visual-identity`. Cómo funciona cada
-parte estará en `openspec/specs/` al archivar cada change; las ideas futuras,
-en `openspec/changes/` como fichas (solo propuesta) que **no se implementan
-durante el MVP** salvo decisión explícita.
+**Estado:** esqueleto técnico (`project-skeleton`) terminado y archivado:
+base de datos con migraciones, API con `GET /api/v1/health` documentada,
+portada que muestra si hay conexión con la API, tests con cobertura,
+pre-commit, CI, Dependabot y `main` protegida. Todavía no hay ninguna regla de
+negocio. Siguiente change: `visual-identity`. Cómo funciona hoy cada parte
+está en `openspec/specs/` (de momento: `local-environment`, `quality-gates` y
+`service-health`); los changes terminados, en `openspec/changes/archive/`; las
+ideas futuras, en `openspec/changes/` como fichas (solo propuesta) que **no se
+implementan durante el MVP** salvo decisión explícita.
 
 ## Alcance del MVP
 

@@ -49,7 +49,7 @@
 - [x] 8.1 Subir la rama `feat/project-skeleton` y abrir su Pull Request (con tu confirmación); verificar que los tres trabajos de la CI terminan en verde
 - [x] 8.2 Activar la protección de `main` con `gh api` (Pull Request y los cuatro chequeos de la CI obligatorios, sin saltos para nadie, con tu confirmación); verificar que `gh api repos/EMendozaRojas/Voxel3D/branches/main/protection` muestra las reglas y que un push directo a `main` es rechazado
 - [x] 8.3 Clonar el repositorio desde GitHub en una carpeta temporal y seguir el README con la rama del Pull Request; verificar que la aplicación arranca y la portada muestra "conectado"
-- [ ] 8.4 Archivar el change (`docs: archiva project-skeleton`) como último commit de la rama, con las specs pasadas a `openspec/specs/`; verificar que la CI sigue en verde y que la historia de la rama va de `docs: plan` a `docs: archiva`
+- [x] 8.4 Archivar el change (`docs: archiva project-skeleton`) como último commit de la rama, con las specs pasadas a `openspec/specs/`; verificar que la CI sigue en verde y que la historia de la rama va de `docs: plan` a `docs: archiva`
 
 ## Workflow follow-up
 

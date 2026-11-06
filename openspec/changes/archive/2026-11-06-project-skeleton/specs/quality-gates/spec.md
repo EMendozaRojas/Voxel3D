@@ -32,7 +32,7 @@ El sistema SHALL rechazar los commits cuyo mensaje no siga el formato Convention
 - **THEN** el commit se acepta
 
 ### Requirement: Integración continua en cada cambio
-El sistema SHALL ejecutar en GitHub, en cada push y en cada Pull Request, las comprobaciones de lint, formato, tipos, vulnerabilidades en dependencias, tests con cobertura y construcción tanto del backend como del frontend.
+El sistema SHALL ejecutar en GitHub, en cada Pull Request y en cada push a `main`, las comprobaciones de lint, formato, tipos, vulnerabilidades en dependencias, tests con cobertura y construcción tanto del backend como del frontend.
 
 #### Scenario: Todo correcto
 - **WHEN** se sube un cambio que cumple todas las comprobaciones
@@ -61,11 +61,15 @@ El sistema SHALL comprobar en cada ejecución de integración continua que las m
 - **THEN** la integración continua termina en rojo
 
 ### Requirement: Dependencias vigiladas
-El sistema SHALL revisar semanalmente las dependencias de Python, de Node, de Docker y de las acciones de GitHub, y proponer su actualización mediante Pull Requests.
+El sistema SHALL revisar semanalmente las dependencias de Python, de Node, de Docker y de las acciones de GitHub, y proponer su actualización mediante Pull Requests agrupados por ecosistema. Las versiones que son decisiones del proyecto (la versión mayor de PostgreSQL y de Node, y la versión de Python) MUST NOT proponerse automáticamente: se actualizan a mano junto con la CI y la configuración.
 
 #### Scenario: Dependencia desactualizada
 - **WHEN** existe una versión nueva de una dependencia declarada en el proyecto
-- **THEN** se abre automáticamente un Pull Request con la actualización
+- **THEN** se abre automáticamente un Pull Request con la actualización, agrupada con las demás del mismo ecosistema
+
+#### Scenario: Versión que es una decisión del proyecto
+- **WHEN** sale una versión mayor nueva de PostgreSQL
+- **THEN** no se abre ningún Pull Request automático para ella
 
 ### Requirement: Rama principal protegida
 El sistema SHALL impedir que se una código a `main` sin un Pull Request y sin que las comprobaciones de integración continua estén en verde.
