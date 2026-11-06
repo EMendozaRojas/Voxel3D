@@ -88,6 +88,11 @@ objetivos táctiles de al menos 44 px y navegación completa con teclado.
 - **Cobertura mínima: 70%**, como un piso y no como objetivo a perseguir con
   tests superficiales. Prioridad: reglas de negocio (stock, pagos, estados) y
   endpoints críticos.
+- **Lo que asegura que funciona no es el porcentaje:** cada escenario de las
+  specs de OpenSpec tiene al menos un test, y cada test comprueba un
+  resultado concreto (qué se ve, qué responde la API, qué cambia en la base).
+  Un test que solo ejecuta código sin comprobar nada no vale, aunque suba la
+  cobertura.
 
 ## Diseño de la API
 
