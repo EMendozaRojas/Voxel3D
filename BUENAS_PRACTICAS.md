@@ -186,3 +186,41 @@ mypy, ESLint y Prettier se ejecutan **dentro de los contenedores**
 del backend: hace falta tener el proyecto levantado (`docker compose up -d`)
 para poder hacer commit. Para pasarlos sobre todo el repo:
 `pre-commit run --all-files`.
+
+## Protección de `main`
+
+En GitHub, la rama `main` está protegida para que **siempre funcione**:
+
+- Solo se cambia con un **Pull Request**; nadie puede subir commits
+  directamente, tampoco la administradora del repositorio.
+- El Pull Request solo se puede unir si los **cuatro chequeos de la CI** están
+  en verde: `backend`, `frontend`, `docker (backend)` y `docker (frontend)`
+  (el trabajo `docker` se divide en dos, uno por imagen).
+- La rama tiene que estar **al día con `main`** antes de unirla, para que la CI
+  haya probado el resultado final.
+- **Cero aprobaciones obligatorias:** hay una sola persona en el proyecto.
+- No se puede reescribir (`force push`) ni borrar `main`.
+
+Se activa **después** de que la CI haya pasado una vez en GitHub: antes, los
+nombres de los chequeos no existen. Se configura con la API de GitHub:
+
+```bash
+gh api -X PUT repos/EMendozaRojas/Voxel3D/branches/main/protection --input - <<'JSON'
+{
+  "required_status_checks": {
+    "strict": true,
+    "contexts": ["backend", "frontend", "docker (backend)", "docker (frontend)"]
+  },
+  "enforce_admins": true,
+  "required_pull_request_reviews": { "required_approving_review_count": 0 },
+  "restrictions": null,
+  "allow_force_pushes": false,
+  "allow_deletions": false
+}
+JSON
+```
+
+Para comprobarla: `gh api repos/EMendozaRojas/Voxel3D/branches/main/protection`.
+Si un día la CI se rompe por algo ajeno al proyecto y bloquea un arreglo
+urgente, se puede relajar desde *Settings → Branches* del repositorio; después
+se vuelve a activar con el mismo comando.

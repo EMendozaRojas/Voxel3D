@@ -61,11 +61,14 @@ Objetivo del proyecto: proyecto de aprendizaje de desarrollo asistido por IA y
 junior en Madrid. Por eso se usan herramientas que se piden en ofertas junior,
 sin sobreingeniería.
 
-**Estado:** Fase 0 (preparación). Todavía no hay código. Siguientes pasos:
-`openspec init` y el primer change, `project-skeleton` (el esqueleto que
-arranca con un comando). Cómo funciona cada parte, cuando exista, estará en
-`openspec/specs/`; las ideas futuras, en `openspec/changes/` como fichas (solo
-propuesta) que **no se implementan durante el MVP** salvo decisión explícita.
+**Estado:** esqueleto técnico (`project-skeleton`) implementado en la rama
+`feat/project-skeleton`: base de datos con migraciones, API con
+`GET /api/v1/health` documentada, portada que muestra si hay conexión con la
+API, tests con cobertura, pre-commit, CI y Dependabot. Todavía no hay ninguna
+regla de negocio. Siguiente change: `visual-identity`. Cómo funciona cada
+parte estará en `openspec/specs/` al archivar cada change; las ideas futuras,
+en `openspec/changes/` como fichas (solo propuesta) que **no se implementan
+durante el MVP** salvo decisión explícita.
 
 ## Alcance del MVP
 
@@ -163,36 +166,47 @@ originales o de licencia libre.
 En el ordenador de la autora **no hay Node.js instalado**: el frontend corre
 dentro de Docker, igual que en ExpenseTrack.
 
-## Estructura de carpetas (prevista)
+## Estructura de carpetas
+
+Lo marcado con *(llegará)* aún no existe; se crea en el change indicado.
 
 ```
 Voxel3D/
-├── CLAUDE.md
-├── BUENAS_PRACTICAS.md
-├── DISENO.md
-├── docker-compose.yml
-├── .env.example
-├── LICENSE              # MIT
+├── CLAUDE.md · BUENAS_PRACTICAS.md · DISENO.md · README.md · LICENSE (MIT)
+├── docker-compose.yml   # db, backend, frontend y mailpit
+├── .env.example         # plantilla de configuración, sin secretos
+├── .pre-commit-config.yaml
+├── .github/
+│   ├── workflows/ci.yml # trabajos backend, frontend y docker
+│   └── dependabot.yml
+├── scripts/openspec.sh  # el CLI de OpenSpec dentro de Docker (sin Node en el ordenador)
 ├── openspec/
 │   ├── specs/           # cómo funciona hoy cada parte (fuente de verdad)
 │   └── changes/         # mejoras pendientes; archive/ = changes ya hechos
 ├── backend/
 │   ├── app/
-│   │   ├── core/        # config, base de datos, seguridad, metadatos OpenAPI
-│   │   ├── modules/     # un módulo por tema: catalog, cart, orders, inventory,
-│   │   │                #   payments, users, shipping (routers, services, models, schemas)
+│   │   ├── core/        # config.py (ajustes), db.py (motor y sesión), openapi.py (metadatos)
+│   │   ├── modules/     # un módulo por tema; hoy solo health/. (llegará: catalog,
+│   │   │                #   cart, orders, inventory, payments, users, shipping)
 │   │   └── main.py
-│   ├── alembic/         # migraciones
-│   ├── scripts/         # crear administradora, datos iniciales (seed) de la tienda, openapi.json
+│   ├── alembic/         # migraciones (hoy, la baseline vacía)
+│   ├── scripts/         # export_openapi.py. (llegará: crear administradora, datos iniciales)
 │   ├── tests/
-│   └── Dockerfile
+│   ├── openapi.json     # contrato de la API; un test falla si no está al día
+│   ├── pyproject.toml   # Ruff, mypy, pytest y cobertura
+│   ├── requirements.txt · requirements-dev.txt
+│   └── Dockerfile       # etapas base, dev y prod
 └── frontend/
     ├── src/
-    │   ├── app/         # rutas de Next.js
-    │   ├── features/    # catalog, cart, checkout, account, admin...
-    │   └── components/  # piezas compartidas
-    ├── e2e/             # tests de Playwright
-    └── Dockerfile
+    │   ├── app/         # rutas de Next.js (portada, layout)
+    │   ├── features/    # una carpeta por funcionalidad; hoy solo health/
+    │   ├── components/  # piezas compartidas (Providers de TanStack Query)
+    │   ├── lib/         # api.ts: dirección de la API
+    │   └── test/        # preparación común de los tests de Vitest
+    ├── e2e/             # (llegará) tests de Playwright
+    ├── AGENTS.md        # aviso de Next.js: leer su documentación en node_modules
+    ├── vitest.config.mts
+    └── Dockerfile       # etapas base, deps, dev, builder y prod (standalone)
 ```
 
 ## Reglas de negocio importantes
@@ -238,13 +252,47 @@ Voxel3D/
 
 ## Cómo se corre en local
 
-*(Se completará con el change `project-skeleton`.)* La meta es que arrancar
-todo sea siempre:
+En el ordenador solo hacen falta **Git, Docker y pre-commit**. Todo lo demás
+corre en contenedores.
 
 ```bash
-cp .env.example .env
-docker compose up --build
+cp .env.example .env          # solo la primera vez
+docker compose up --build     # web :3000, API :8000/docs, Mailpit :8025
+docker compose down           # parar (los datos se conservan)
+docker compose down -v        # empezar de cero (borra la base de datos)
 ```
+
+Tests y calidad (con el proyecto arrancado):
+
+```bash
+docker compose exec backend pytest --cov
+docker compose exec backend ruff check . && docker compose exec backend ruff format --check .
+docker compose exec backend mypy app tests scripts
+docker compose exec frontend npm run test:coverage
+docker compose exec frontend npm run lint && docker compose exec frontend npm run format:check
+docker compose exec backend python -m scripts.export_openapi   # regenerar openapi.json
+pre-commit run --all-files
+```
+
+Cosas que conviene saber:
+
+- **ExpenseTrack usa los mismos puertos** (5432, 8000, 8025): apagarlo con
+  `docker compose stop` en su carpeta antes de arrancar Voxel3D.
+- **Commits:** los hooks de mypy, ESLint y Prettier corren dentro de los
+  contenedores, así que hay que tener el proyecto arrancado.
+- **Backend:** `alembic.ini` y `pyproject.toml` se montan como archivos
+  sueltos; tras editarlos, `docker compose up -d --force-recreate backend`.
+- **Frontend:** se monta toda la carpeta, salvo `node_modules` y `.next`, que
+  viven en volúmenes del contenedor. Tras cambiar `package.json`,
+  `docker compose up -d --build -V frontend` (`-V` renueva esos volúmenes).
+- **Instalar librerías de Node** sin Node en el ordenador:
+  `docker compose exec frontend npm install <paquete>` y después reconstruir.
+- **Next.js 16** cambia rápido: antes de escribir código de Next, leer la guía
+  correspondiente en `frontend/node_modules/next/dist/docs/` (lo pide
+  `frontend/AGENTS.md`).
+- **`NEXT_PUBLIC_API_URL`** se escribe dentro del código al construir la
+  imagen de producción: para otra dirección hay que reconstruirla.
+- **OpenSpec:** `./scripts/openspec.sh <comando>`.
 
 ## Plan de changes (orden previsto)
 
