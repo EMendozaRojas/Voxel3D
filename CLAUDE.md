@@ -30,7 +30,7 @@ iniciales). Solo tiendas online; no se busca servir para cualquier tipo de web.
 ### Padre e hijos (al terminar el MVP)
 
 ```
-                 PADRE: el motor de tiendas
+              PADRE: Chasis, el motor de tiendas
      carrito · pagos · pedidos · panel · usuarios · filtros
                           │
          las mejoras bajan a todos los hijos
@@ -39,7 +39,9 @@ iniciales). Solo tiendas online; no se busca servir para cualquier tipo de web.
       Voxel3D        Sakuribella     Tienda nueva
 ```
 
-1. **Padre:** el motor neutro, con un tema sencillo y datos de ejemplo.
+1. **Padre:** **Chasis**, el motor neutro, con un tema sencillo y datos de
+   ejemplo. Como el chasis de un coche: el mismo esqueleto con distinta
+   carrocería encima. El nombre del repositorio va sin tilde.
 2. **Hijos:** Voxel3D (hijo 1) y **Sakuribella** (bisutería kawaii, hijo 2),
    que valida que el molde sirve para otra tienda.
 3. Cada hijo se crea **con un enlace a su padre** (remoto `upstream`), no con
@@ -195,10 +197,15 @@ Voxel3D/
 
 ## Reglas de negocio importantes
 
-- **Inventario:** el stock es de cada variante. Al pagar, se comprueba y se
-  descuenta dentro de una transacción de base de datos con bloqueo de fila,
-  para que dos personas no compren la última unidad a la vez. Todo cambio de
-  stock queda en un historial de movimientos con su motivo.
+- **Inventario:** el stock es de cada variante. Al pulsar "Ir a pagar", el
+  stock se **aparta unos minutos** (reserva con caducidad), porque el cobro
+  ocurre fuera de la web, en Stripe, y sin reserva dos personas podrían pagar
+  la última unidad. La reserva se crea dentro de una transacción de base de
+  datos con bloqueo de fila. Si el pago se confirma, el stock se descuenta; si
+  la reserva caduca o el pago falla, las unidades vuelven a estar libres. Los
+  detalles (minutos, qué pasa si se paga tarde) se deciden en la spec de
+  pagos. Todo cambio de stock queda en un historial de movimientos con su
+  motivo.
 - **Pagos:** el pedido se crea como "pendiente de pago" y solo pasa a
   "pagado" cuando llega el **webhook** firmado de Stripe. El webhook es
   idempotente: si Stripe avisa dos veces del mismo pago, el pedido se procesa
