@@ -2,8 +2,11 @@
 # (el backend migra una base vacía desde cero) y construcción de las imágenes.
 name: CI
 
+# En push solo para main: en las demás ramas ya la lanza su Pull Request, y
+# con los dos eventos la CI se ejecutaría dos veces para el mismo código.
 on:
   push:
+    branches: [main]
   pull_request:
 
 # Solo lo necesario: leer el código. La CI no puede escribir en el repositorio.
