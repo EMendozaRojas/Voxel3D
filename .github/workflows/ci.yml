@@ -1,0 +1,114 @@
+# Comprueba cada push y pull request: calidad, tipos, vulnerabilidades, tests
+# (el backend migra una base vacía desde cero) y construcción de las imágenes.
+name: CI
+
+on:
+  push:
+  pull_request:
+
+# Solo lo necesario: leer el código. La CI no puede escribir en el repositorio.
+permissions:
+  contents: read
+
+# Si subes otro cambio a la misma rama, se cancela la ejecución anterior.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  backend:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: backend
+    # Base de datos vacía, la misma versión que docker-compose.yml. Las
+    # credenciales son de usar y tirar: solo existen durante esta ejecución.
+    services:
+      postgres:
+        image: postgres:16.15
+        env:
+          POSTGRES_USER: ci
+          POSTGRES_PASSWORD: ci-solo-pruebas
+          POSTGRES_DB: ci
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U ci -d ci"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    env:
+      DATABASE_URL: postgresql+psycopg://ci:ci-solo-pruebas@localhost:5432/ci
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: backend/requirements*.txt
+      # El nombre de la tienda sale de .env.example: el contrato openapi.json
+      # lo lleva en el título y así cada tienda usa el suyo sin tocar la CI.
+      - name: Nombre de la tienda
+        run: grep '^STORE_NAME=' ../.env.example >> "$GITHUB_ENV"
+      - name: Instalar dependencias
+        run: pip install -r requirements-dev.txt
+      - name: Lint (Ruff)
+        run: ruff check .
+      - name: Formato (Ruff)
+        run: ruff format --check .
+      - name: Tipos (mypy)
+        run: mypy app tests scripts
+      - name: Vulnerabilidades (pip-audit)
+        run: pip-audit -r requirements.txt
+      - name: Tests y cobertura (pytest, mínimo 70%)
+        run: pytest --cov --cov-report=term
+
+  frontend:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: frontend
+    env:
+      NEXT_TELEMETRY_DISABLED: 1
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+      - name: Instalar dependencias
+        run: npm ci
+      - name: Lint (ESLint)
+        run: npm run lint
+      - name: Formato (Prettier)
+        run: npm run format:check
+      # Solo las librerías que llegan a la web; las de desarrollo las vigila
+      # Dependabot.
+      - name: Vulnerabilidades (npm audit)
+        run: npm audit --omit=dev
+      - name: Tests y cobertura (Vitest, mínimo 70%)
+        run: npm run test:coverage
+      - name: Build (next build)
+        run: npm run build
+
+  docker:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      matrix:
+        service: [backend, frontend]
+    steps:
+      - uses: actions/checkout@v7
+      - uses: docker/setup-buildx-action@v4
+      - name: Construir la imagen de producción (${{ matrix.service }})
+        uses: docker/build-push-action@v7
+        with:
+          context: ${{ matrix.service }}
+          target: prod
+          push: false
+          # Caché de GitHub: las siguientes construcciones tardan mucho menos.
+          cache-from: type=gha,scope=${{ matrix.service }}
+          cache-to: type=gha,mode=max,scope=${{ matrix.service }}
