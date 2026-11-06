@@ -41,7 +41,7 @@
 
 ## 7. Documentación
 
-- [ ] 7.1 Escribir `README.md` en español (qué es: plantilla reutilizable de tiendas con Voxel3D como primera tienda; estado, tecnologías, cómo arrancarlo, cómo correr los tests); verificar siguiendo el README, paso a paso, desde un clon limpio
+- [x] 7.1 Escribir `README.md` en español (qué es: plantilla reutilizable de tiendas con Voxel3D como primera tienda; estado, tecnologías, cómo arrancarlo, cómo correr los tests); verificar siguiendo el README, paso a paso, desde un clon limpio
 - [ ] 7.2 Actualizar `CLAUDE.md` (estado, "Cómo se corre en local" y estructura real de carpetas) y añadir a `BUENAS_PRACTICAS.md` la protección de `main`; verificar que los comandos y rutas citados existen y funcionan
 
 ## 8. Integración final
