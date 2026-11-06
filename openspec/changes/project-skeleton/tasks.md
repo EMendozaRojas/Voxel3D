@@ -30,7 +30,7 @@
 
 ## 5. Arranque completo desde cero
 
-- [ ] 5.1 Probar el arranque completo con `docker compose down -v && docker compose up --build`; verificar que la portada en `http://localhost:3000` muestra "conectado", que `http://localhost:8000/docs` carga y que `http://localhost:8000/api/v1/health` devuelve `200`
+- [x] 5.1 Probar el arranque completo con `docker compose down -v && docker compose up --build`; verificar que la portada en `http://localhost:3000` muestra "conectado", que `http://localhost:8000/docs` carga y que `http://localhost:8000/api/v1/health` devuelve `200`
 - [ ] 5.2 Comprobar los puertos y los secretos; verificar que los puertos de PostgreSQL y de Mailpit solo escuchan en `127.0.0.1` (`docker compose ps` o `ss -ltn`), que `git check-ignore .env` confirma que se ignora y que `docker run --rm <imagen> ls -a /app` no muestra ningún `.env`
 
 ## 6. Calidad automática
