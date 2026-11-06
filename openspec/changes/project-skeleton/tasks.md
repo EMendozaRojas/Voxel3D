@@ -46,12 +46,11 @@
 
 ## 8. Integración final
 
-- [ ] 8.1 Subir la rama `feat/project-skeleton` y abrir su Pull Request (con tu confirmación); verificar que los tres trabajos de la CI terminan en verde
-- [ ] 8.2 Archivar el change (`docs: archiva project-skeleton`) con la CI en verde, activar la protección de `main` y unir el Pull Request con *merge commit* (con tu confirmación); actualizar `main` en local y verificar que `git log --oneline` en `main` muestra el change completo, de `docs: plan` a `docs: archiva`, con los commits de cada tarea conservados
-- [ ] 8.3 Activar la protección de `main` con `gh api` (Pull Request y los tres trabajos obligatorios, sin saltos para nadie, con tu confirmación); verificar que `gh api repos/EMendozaRojas/Voxel3D/branches/main/protection` muestra las reglas y que un push directo a `main` es rechazado
-- [ ] 8.4 Clonar el repositorio en una carpeta temporal y seguir el README; verificar que la aplicación arranca y la portada muestra "conectado"
+- [x] 8.1 Subir la rama `feat/project-skeleton` y abrir su Pull Request (con tu confirmación); verificar que los tres trabajos de la CI terminan en verde
+- [x] 8.2 Activar la protección de `main` con `gh api` (Pull Request y los cuatro chequeos de la CI obligatorios, sin saltos para nadie, con tu confirmación); verificar que `gh api repos/EMendozaRojas/Voxel3D/branches/main/protection` muestra las reglas y que un push directo a `main` es rechazado
+- [ ] 8.3 Clonar el repositorio desde GitHub en una carpeta temporal y seguir el README con la rama del Pull Request; verificar que la aplicación arranca y la portada muestra "conectado"
+- [ ] 8.4 Archivar el change (`docs: archiva project-skeleton`) como último commit de la rama, con las specs pasadas a `openspec/specs/`; verificar que la CI sigue en verde y que la historia de la rama va de `docs: plan` a `docs: archiva`
 
 ## Workflow follow-up
 
-- Archivar el change (`/opsx:archive`): las tres specs pasan a `openspec/specs/`.
-- Actualizar `CLAUDE.md` si algo del esqueleto real difiere de lo previsto.
+- Unir el Pull Request a `main` con *merge commit* (con tu confirmación) y actualizar `main` en local; verificar que `git log --oneline` en `main` muestra el change completo, de `docs: plan` a `docs: archiva`, con los commits de cada tarea conservados, y que Dependabot aparece activo.
