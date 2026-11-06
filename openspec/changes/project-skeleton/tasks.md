@@ -23,7 +23,7 @@
 ## 4. Frontend mínimo
 
 - [x] 4.1 Crear `frontend/` con Next.js (App Router), TypeScript en modo `strict` y Tailwind, generado sin instalar Node en el ordenador (dentro de un contenedor de `node:22-alpine`), y añadir `frontend/.dockerignore`; verificar que existen `package.json` y `package-lock.json` y que `npm run build` termina sin errores dentro del contenedor
-- [ ] 4.2 Configurar ESLint y Prettier con los *scripts* `lint`, `format` y `format:check`; verificar que `npm run lint` y `npm run format:check` pasan sobre el código generado
+- [x] 4.2 Configurar ESLint y Prettier con los *scripts* `lint`, `format` y `format:check`; verificar que `npm run lint` y `npm run format:check` pasan sobre el código generado
 - [ ] 4.3 Añadir TanStack Query (`QueryClientProvider`), el hook `useHealth` y el componente `HealthStatus` con los estados cargando, conectado y error con botón de reintento, y usarlo en la portada con un título genérico ("Estado del servidor", sin nombre de tienda); verificar con tests de Vitest y React Testing Library que se muestran los tres estados con `fetch` simulado y que el botón de reintento vuelve a pedir el estado
 - [ ] 4.4 Configurar Vitest con cobertura y el *script* `test:coverage`; verificar que `npm run test:coverage` pasa con cobertura de al menos 70%
 - [ ] 4.5 Escribir `frontend/Dockerfile` con etapas `base`, `dev` y `prod` (`output: "standalone"`, usuario no-root) y añadir el servicio `frontend` a `docker-compose.yml`; verificar que `docker build --target prod` termina sin errores y que `docker run --rm <imagen> id -u` no devuelve `0`
