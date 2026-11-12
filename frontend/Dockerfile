@@ -37,6 +37,10 @@ COPY . .
 # dirección hay que volver a construir la imagen (--build-arg).
 ARG NEXT_PUBLIC_API_URL=http://localhost:8000/api/v1
 ENV NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}
+# El nombre de la tienda no tiene valor por defecto: el motor no conoce ninguna
+# tienda. Sin él, la construcción falla con un mensaje claro.
+ARG NEXT_PUBLIC_STORE_NAME
+ENV NEXT_PUBLIC_STORE_NAME=${NEXT_PUBLIC_STORE_NAME}
 
 # public/ puede estar vacía y git no guarda carpetas vacías
 RUN mkdir -p public && npm run build
