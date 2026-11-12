@@ -8,49 +8,61 @@ todavía es solo papel. Antes de construir el catálogo, el carrito o el login
 hace falta el **juego de piezas** con el que se montan todas las pantallas:
 colores, fuentes, logo, cabecera, pie y componentes base.
 
-Además, Voxel3D es la primera tienda sobre un motor reutilizable (Chasis). Si
-el aspecto metálico se escribe dentro de los componentes, Sakuribella tendría
-que reescribirlos. Este change separa **qué se ve** (el tema de cada tienda) de
-**qué hace** cada pieza (el motor), para que otra tienda cambie su aspecto
-editando solo su tema.
+Además, Voxel3D es la primera tienda sobre un motor reutilizable (Chasis). La
+idea de la autora es que **el esqueleto ahorre la funcionalidad y el diseño de
+cada tienda sea libre**: no solo los colores, también la forma y la disposición
+de las piezas. Por eso este change separa, en cada pieza, **lo que hace** (la
+lógica, en el motor) de **cómo se ve** (la carrocería, en la carpeta de cada
+tienda). Sakuribella podrá rehacer su tarjeta o su cabecera sin tocar el motor,
+y las mejoras del motor le llegarán sin pisar su diseño.
 
 ## What Changes
 
 Este change **incluye pantalla (UI)**; no toca el backend.
 
-- **Tema de la tienda en una sola carpeta** (`frontend/src/theme/`): colores,
-  tipografías, logo y **adornos** (texturas de acero, remaches, barras de
-  cobre). Los componentes solo usan nombres neutros (`accent`, `surface`,
-  `on-accent`…), nunca `cobre` ni `Voxel3D`. Cada adorno se puede apagar o
-  cambiar desde el tema (decisión 2B de la usuaria).
-- **Logo de texto** con la fuente y el degradado del tema (Russo One y cobre en
-  Voxel3D), con la opción de usar una imagen en su lugar si una tienda la tiene
-  (decisión 3A). El texto del logo es el nombre de la tienda
-  (`NEXT_PUBLIC_STORE_NAME`, que sale del mismo `STORE_NAME` del backend).
-- **Estructura común de todas las páginas**: cabecera (logo, menú, cuenta y
-  carrito con contador), pie con el aviso "Modo demostración: no se cobra dinero
-  real", y en el móvil cabecera reducida y barra inferior.
-- **Piezas sueltas**: botón (principal, agotado), chips de categoría (con el
-  botón "Más" en el móvil), buscador con el cubo voxel, tarjeta de producto y
-  etiqueta de stock ("En stock", "Quedan N", "Agotado").
+- **Chasis y carrocería separados** (decisión A de la usuaria, 2026-11-12):
+  - **Motor (chasis):** la lógica de cada pieza en funciones y *hooks* con sus
+    tests (texto del stock, formato del precio, abrir y cerrar paneles,
+    página activa del menú…), y las páginas, que obtienen los datos y los pasan
+    a la vista.
+  - **Carrocería (`frontend/src/theme/`):** todo lo que se ve. Colores,
+    tipografías, logo, adornos y **también los componentes visuales** y la
+    disposición de la página. Cada tienda la cambia o la rehace libremente.
+  - **Contrato con tipos de TypeScript:** el motor define qué datos recibe cada
+    pieza; si una carrocería olvida uno, la comprobación de tipos falla.
+- **Carrocería de Voxel3D**, la metálica de `DISENO.md`:
+  - Logo de texto con Russo One y degradado cobre, con la opción de usar una
+    imagen (decisión 3A).
+  - Estructura de las páginas: cabecera (logo, menú, cuenta y carrito con
+    contador), pie con el aviso "Modo demostración: no se cobra dinero real" y,
+    en el móvil, cabecera reducida y barra inferior.
+  - Piezas: botón, chips de categoría con "Más" en el móvil, buscador con el
+    cubo voxel, tarjeta de producto y etiqueta de stock.
+  - Adornos dibujados con CSS: acero perforado, metal cepillado, remaches y
+    barras de cobre.
 - **Página `/muestrario`**, solo en desarrollo, que enseña cada pieza con datos
   de ejemplo (decisión 1A). La portada sigue mostrando el estado del servidor,
   ya con el nuevo aspecto.
-- **Contrastes comprobados por un test**: las parejas de texto y fondo del tema
-  cumplen al menos 4,5:1. Los valores ajustados se apuntan en `DISENO.md`.
-- `DISENO.md`, `CLAUDE.md` y el README al día (sale de pendientes "Logo en
-  imagen" y "mover los valores a tokens").
+- **Contrastes comprobados por un test** (al menos 4,5:1); los valores
+  ajustados se apuntan en `DISENO.md`.
+- **Prueba de libertad con otra IA:** un `AGENTS.md` (el archivo que leen casi
+  todas las IAs de programación) y una guía breve para cambiar el diseño. Con
+  ellos, la autora pide a otra IA el aspecto de Sakuribella en una rama de
+  prueba que no se une, y lo que se atasque se corrige en el motor o en la
+  documentación.
+- `DISENO.md`, `CLAUDE.md` y el README al día.
 
 ## Capabilities
 
 ### New Capabilities
 
-- `store-theme`: el tema de cada tienda (tokens neutros, fuentes, logo,
-  adornos que se pueden apagar) y la regla de que el motor no conoce la tienda.
-- `storefront-layout`: la estructura común de las páginas (cabecera, pie,
-  barra inferior móvil, aviso de demostración) y su accesibilidad.
+- `store-theme`: la separación entre motor y carrocería, el contrato de tipos,
+  el logo y el contraste.
+- `storefront-layout`: la estructura común de las páginas de Voxel3D
+  (cabecera, pie, barra inferior móvil, aviso de demostración) y su
+  accesibilidad.
 - `ui-components`: las piezas base (botón, chips, buscador, tarjeta, etiqueta
-  de stock) y el muestrario.
+  de stock), con su lógica en el motor, y el muestrario.
 
 ### Modified Capabilities
 
@@ -59,14 +71,16 @@ Este change **incluye pantalla (UI)**; no toca el backend.
 
 ## Impact
 
-- Código: `frontend/src/theme/`, `frontend/src/components/`, `frontend/src/app/`
-  (`layout.tsx`, `page.tsx`, `muestrario/`).
-- Configuración: nueva variable `NEXT_PUBLIC_STORE_NAME` en `.env.example`,
-  `docker-compose.yml`, `frontend/Dockerfile` y la CI.
-- Documentación: `DISENO.md`, `CLAUDE.md`, `README.md`.
+- Código del motor: `frontend/src/lib/`, `frontend/src/hooks/`,
+  `frontend/src/config/`, `frontend/src/app/` (`layout.tsx`, `page.tsx`,
+  `muestrario/`) y el contrato `frontend/src/lib/theme-contract.ts`.
+- Carrocería: `frontend/src/theme/` (CSS, fuentes, marca, `layout/` y `ui/`).
+- Configuración: nueva variable `NEXT_PUBLIC_STORE_NAME` (sale de `STORE_NAME`)
+  en `docker-compose.yml`, `frontend/Dockerfile` y la CI.
+- Documentación: `AGENTS.md` (nuevo), guía para cambiar el diseño, `DISENO.md`,
+  `CLAUDE.md` y `README.md`.
 - Dependencias: ninguna nueva; las fuentes llegan con `next/font/google` (ya
-  incluido en Next.js) y se sirven desde la propia web, sin pedirlas a Google
-  en cada visita.
+  incluido en Next.js) y se sirven desde la propia web.
 
 ## Out of scope
 
@@ -78,9 +92,11 @@ Este change **incluye pantalla (UI)**; no toca el backend.
 - **Que el buscador busque**: aquí solo es la pieza visual con su etiqueta.
 - **Pantallas sin maquetar**: detalle de producto, carrito, checkout, cuenta y
   panel de administración.
-- **El tema neutro de Chasis**: se crea al separar el padre, al final del MVP.
-  Aquí solo se deja preparado (un tema = una carpeta).
-- **Logo dibujado en imagen** para Voxel3D: queda la opción en el tema, pero no
-  se diseña ninguno.
+- **Crear Chasis y la carrocería neutra de ejemplo**: se hace al separar el
+  padre, al final del MVP. La carrocería de Sakuribella de la prueba no se une
+  a ninguna rama.
+- **Cambiar el diseño sin programar** (desde el panel, como en WordPress): el
+  diseño se cambia con código; desde el panel se gestionará el catálogo.
+- **Logo dibujado en imagen** para Voxel3D: queda la opción, pero no se diseña.
 - **Tests de extremo a extremo con Playwright** (llegan con el catálogo) y
   modo oscuro/claro alternativo.

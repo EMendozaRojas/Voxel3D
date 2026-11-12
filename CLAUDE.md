@@ -16,7 +16,10 @@ cuenta.
 sobre un **motor de tienda reutilizable**. Lo que cambia de una tienda a otra
 se separa desde el primer día:
 
-- **Tema visual:** colores, tipografías y logo en un único archivo de tema.
+- **Carrocería (aspecto):** todo lo que se ve (colores, tipografías, logo,
+  adornos y también la forma de las piezas y la disposición de la página) en
+  la carpeta `frontend/src/theme/`. El diseño de cada tienda es libre; el motor
+  solo pone la lógica (ver [Chasis y carrocería](#chasis-y-carrocería)).
 - **Configuración de la tienda:** nombre, idioma, moneda, tarifa de envío y
   textos fijos.
 - **Catálogo:** categorías, atributos (filtros y variantes) y productos son
@@ -24,8 +27,8 @@ se separa desde el primer día:
   código (ver [Catálogo](#catálogo)).
 
 El motor **no** debe contener nada propio de Voxel3D (palabras como
-"acabado" o "filamento" solo aparecen en el tema, la configuración y los datos
-iniciales). Solo tiendas online; no se busca servir para cualquier tipo de web.
+"acabado" o "filamento" solo aparecen en la carrocería, la configuración y los
+datos iniciales). Solo tiendas online; no se busca servir para cualquier tipo de web.
 
 ### Padre e hijos (al terminar el MVP)
 
@@ -52,9 +55,26 @@ iniciales). Solo tiendas online; no se busca servir para cualquier tipo de web.
    se lleva al padre (o se copia su commit con `git cherry-pick`) y desde ahí
    llega a todos.
 
-Un hijo solo cambia su **tema** (colores, tipografías, logo), su
+Un hijo cambia su **carrocería** (todo lo que se ve, con total libertad), su
 **configuración** (nombre, envío, textos fijos), sus **datos iniciales**
-(categorías y atributos) y sus imágenes y productos. Nunca toca el motor.
+(categorías y atributos) y sus imágenes y productos. Nunca toca el motor: así
+las mejoras del padre le llegan sin pisar su diseño.
+
+### Chasis y carrocería
+
+Cada pieza de la web tiene dos partes:
+
+- **Lógica, en el motor:** qué pasa ("¿quedan pocas unidades?", "¿está abierto
+  el panel?", el precio en formato `14,90 €`). Funciones y *hooks* en
+  `frontend/src/lib/` y `frontend/src/hooks/`, con sus tests, y páginas en
+  `frontend/src/app/` que obtienen los datos y se los pasan a la vista.
+- **Vista, en la carrocería** (`frontend/src/theme/`): cómo se ve. Cada tienda
+  la modifica un poco o la rehace entera.
+
+El "enchufe" entre las dos son los tipos de `frontend/src/lib/theme-contract.ts`:
+una carrocería puede tener cualquier forma mientras reciba esos datos; si no,
+`tsc` falla. El motor no es un WordPress sin código: desde el panel se gestiona
+el catálogo, y el diseño se cambia con código.
 
 Objetivo del proyecto: proyecto de aprendizaje de desarrollo asistido por IA y
 **portafolio** (CV y GitHub) para buscar el primer empleo como desarrolladora
@@ -299,8 +319,9 @@ Cosas que conviene saber:
 
 1. `project-skeleton`: repositorio, Docker Compose, `/health`, migración
    inicial, frontend conectado, primer test, linters, pre-commit y CI.
-2. `visual-identity`: tokens de diseño en un único archivo de tema, logo y
-   componentes base de `DISENO.md`.
+2. `visual-identity`: separación entre chasis y carrocería, carrocería de
+   Voxel3D (tokens, fuentes, logo, estructura y piezas de `DISENO.md`) y prueba
+   del diseño libre con otra IA.
 3. `users-auth-roles`: registro, login, roles y creación de la administradora.
 4. `catalog-and-products`: categorías, atributos, productos, variantes e
    imágenes, su gestión desde el panel y los datos iniciales de Voxel3D.
@@ -347,6 +368,12 @@ Formato: decisión · alternativas que se miraron · por qué.
   padre con el tema de Voxel3D obligaría a cada hijo a borrarlo y chocaría con
   su diseño; la plantilla de GitHub no deja pasar mejoras a los hijos; una
   librería versionada es demasiado compleja para este proyecto.
+- **Chasis (lógica) y carrocería (aspecto) separados** · que cada tienda solo
+  cambie colores, fuentes y logo, o que edite las piezas del motor · el diseño
+  de cada tienda tiene que ser libre (también la forma de las piezas) y las
+  mejoras del motor tienen que llegarle sin conflictos. Se valida pidiendo a
+  otra IA el aspecto de Sakuribella con solo la documentación (al final de
+  `visual-identity`) y la tienda completa (al final del MVP).
 - **Atributos configurables desde el panel** · filtros y variantes escritos en
   el código · así cada tienda define sus propias características (acabado en
   Voxel3D, baño o talla en Sakuribella) sin tocar el código.

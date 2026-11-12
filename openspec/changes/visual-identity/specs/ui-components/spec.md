@@ -7,6 +7,13 @@ el muestrario donde se ven todas juntas.
 
 ## ADDED Requirements
 
+### Requirement: La lógica de las piezas vive en el motor
+Las reglas de cada pieza (texto de la etiqueta de stock, formato del precio, qué chips se ven y cuáles van al panel "Más", abrir y cerrar paneles, página activa) SHALL estar en funciones y *hooks* del motor con sus propios tests, y las piezas de la carrocería SHALL usarlas en lugar de repetirlas.
+
+#### Scenario: La regla del stock está en un solo sitio
+- **WHEN** se llama a la función de stock del motor con stock 3 y umbral 5
+- **THEN** devuelve el estado "pocas unidades" con el texto "Quedan 3", sin que intervenga ninguna pieza visual
+
 ### Requirement: Botón
 El frontend SHALL ofrecer un botón con variante principal y estado desactivado, construido con el elemento `<button>`.
 
