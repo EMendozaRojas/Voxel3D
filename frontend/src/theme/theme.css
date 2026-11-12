@@ -1,0 +1,19 @@
+/*
+ * Tema de la tienda: todo lo que cambia de aspecto entre una tienda y otra.
+ * Los componentes solo usan los nombres neutros de aquí (font-body, …), nunca
+ * valores escritos a mano. Los colores y los adornos llegan en las tareas 1.3
+ * y 1.5 de visual-identity.
+ */
+
+/* --- Tipografías (las variables --font-store-* las crea fonts.ts) --- */
+@theme inline {
+  --font-logo: var(--font-store-logo), "Arial Black", sans-serif;
+  --font-label: var(--font-store-label), "Arial Narrow", sans-serif;
+  --font-body: var(--font-store-body), Arial, sans-serif;
+}
+
+@layer base {
+  body {
+    font-family: var(--font-body);
+  }
+}

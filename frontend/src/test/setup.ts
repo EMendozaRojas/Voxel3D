@@ -9,3 +9,14 @@ afterEach(() => {
   cleanup();
   vi.unstubAllGlobals();
 });
+
+// next/font/google solo funciona dentro de Next.js (descarga las fuentes al
+// construir). En los tests, cada fuente devuelve solo su variable CSS.
+vi.mock("next/font/google", () => {
+  const font = (options: { variable?: string }) => ({
+    className: "font-de-prueba",
+    variable: options.variable ?? "",
+    style: { fontFamily: "font-de-prueba" },
+  });
+  return { Arimo: font, Rajdhani: font, Russo_One: font };
+});

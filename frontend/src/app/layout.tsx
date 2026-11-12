@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 
 import { Providers } from "@/components/Providers";
 import { STORE_NAME } from "@/config/store";
+import { fontVariables } from "@/theme/fonts";
 
 import "./globals.css";
 
@@ -13,7 +14,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="es" className="h-full antialiased">
+    <html lang="es" className={`${fontVariables} h-full antialiased`}>
       <body className="flex min-h-full flex-col">
         <Providers>{children}</Providers>
       </body>
