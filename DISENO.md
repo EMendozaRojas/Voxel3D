@@ -23,7 +23,7 @@ protagonistas: las fotos van sobre fondo blanco dentro de un marco metálico.
 | Cabecera y pie | fondo `#1b1c1e` con puntos `#08080a` (acero perforado, patrón de 7 px; 6 px en móvil) |
 | Línea bajo la cabecera y sobre el pie | cobre `#b8651d` (4 px; 3 px en móvil) |
 | Texto principal | `#f1f1f1` |
-| Texto secundario | `#c9cdd2` (material), `#d4d7db` (pie y menús) |
+| Texto secundario | `#d4d7db` (material, pie y menús) |
 | Acento de texto (enlace activo) | cobre claro `#e0904f` |
 | Acento de línea | `#d9772f` (subrayado del menú activo) |
 | Barras laterales de la tarjeta | `#cf6a24` |
@@ -38,9 +38,12 @@ protagonistas: las fotos van sobre fondo blanco dentro de un marco metálico.
 | Botones redondos (cuenta, carrito) | plata `#e0e3e7` → `#8a8e94`, icono `#1b1c1e` |
 | Contador del carrito | fondo `#a9531e`, texto blanco |
 
-> Los contrastes se estimaron a mano para las parejas de texto principales.
-> **Pendiente:** comprobarlos con una herramienta de contraste antes de
-> definir los tokens finales (objetivo: 4,5:1 en texto normal).
+> **Contraste comprobado** por `frontend/src/theme/theme.contrast.test.ts`:
+> 4,5:1 para texto y 3:1 para iconos, contra el punto más desfavorable de cada
+> degradado. Único ajuste (2026-11-15): el texto secundario pasó de `#c9cdd2`
+> a `#d4d7db`, porque sobre la parte clara del marco de la tarjeta (`#5a5e64`)
+> daba 4,08:1; ahora da 4,52:1. Se eligió aclarar el texto en vez de
+> oscurecer el marco para no cambiar el metal de las tarjetas.
 
 ## Tipografías
 
