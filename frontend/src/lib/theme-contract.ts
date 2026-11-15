@@ -11,6 +11,7 @@
 import type { ReactNode } from "react";
 
 import type { NavLink } from "./navigation";
+import type { StockStatus } from "./stock";
 
 /**
  * Disposición común de todas las páginas: la carrocería decide dónde va cada
@@ -57,4 +58,9 @@ export type BottomNavProps = {
   moreLinks: NavLink[];
   /** Dirección de la página actual, para marcar su enlace (`isActivePath`). */
   currentPath: string;
+};
+
+/** Etiqueta de stock: el motor decide el estado y el texto (`getStockStatus`). */
+export type StockBadgeProps = {
+  status: StockStatus;
 };
