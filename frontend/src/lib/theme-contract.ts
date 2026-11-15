@@ -64,3 +64,25 @@ export type BottomNavProps = {
 export type StockBadgeProps = {
   status: StockStatus;
 };
+
+/** Producto tal como lo muestra una tarjeta del listado. */
+export type ProductSummary = {
+  id: string;
+  name: string;
+  /** Precio en céntimos (`formatPrice` lo convierte en "14,90 €"). */
+  priceCents: number;
+  /** Texto corto bajo el precio (por ejemplo, material y acabado). */
+  shortDescription: string;
+  stock: number;
+  /** Foto del producto; si falta, la carrocería pone un marcador. */
+  image?: { src: string; alt: string };
+};
+
+/** Tarjeta de producto. */
+export type ProductCardProps = {
+  product: ProductSummary;
+  /** A partir de cuántas unidades se avisa de "Quedan N". */
+  lowStockThreshold: number;
+  /** Acción del botón "Añadir al carrito" (llega con el change `cart`). */
+  onAddToCart?: () => void;
+};
