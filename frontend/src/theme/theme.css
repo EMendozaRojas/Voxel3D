@@ -96,7 +96,103 @@
     font-family: var(--font-body);
     color: var(--color-text);
     background-color: var(--color-page);
-    background-image: var(--gradient-page);
+    /* Metal cepillado: rayas verticales finas sobre el degradado */
+    background-image:
+      repeating-linear-gradient(90deg, rgb(255 255 255 / 0.028) 0 1px, transparent 1px 3px),
+      var(--gradient-page);
     background-attachment: fixed;
+  }
+}
+
+/*
+ * Adornos de Voxel3D. Son de esta carrocería: otra tienda los cambia o los
+ * borra. Muestra aprobada por la autora el 2026-11-15.
+ */
+:root {
+  --decor-hole: #08080a;
+  --decor-hole-step: 7px;
+  --decor-line-width: 4px;
+  --decor-bar: #cf6a24;
+  --decor-bar-light: #e8924c;
+  --decor-bar-dark: #a8521a;
+  --decor-rivet-light: #c1c6cc;
+  --decor-rivet-dark: #4b4f55;
+  --decor-rivet: radial-gradient(
+    circle at 40% 40%,
+    var(--decor-rivet-light) 0 1.6px,
+    var(--decor-rivet-dark) 3.6px 4.4px,
+    transparent 4.8px
+  );
+}
+
+@media (max-width: 640px) {
+  :root {
+    --decor-hole-step: 6px;
+    --decor-line-width: 3px;
+  }
+}
+
+@layer components {
+  /* Acero perforado: fondo de la cabecera y el pie */
+  .decor-perforated {
+    background-color: var(--color-header);
+    background-image: radial-gradient(circle, var(--decor-hole) 1.4px, transparent 1.9px);
+    background-size: var(--decor-hole-step) var(--decor-hole-step);
+  }
+
+  /* Línea de acento: bajo la cabecera y sobre el pie */
+  .decor-line-bottom {
+    border-bottom: var(--decor-line-width) solid var(--color-accent-strong);
+  }
+  .decor-line-top {
+    border-top: var(--decor-line-width) solid var(--color-accent-strong);
+  }
+
+  /* Remaches en las cuatro esquinas, encima del marco metálico de la tarjeta */
+  .decor-rivets {
+    background-color: var(--color-surface);
+    background-image:
+      var(--decor-rivet), var(--decor-rivet), var(--decor-rivet), var(--decor-rivet),
+      var(--gradient-surface);
+    background-repeat: no-repeat;
+    background-size:
+      10px 10px,
+      10px 10px,
+      10px 10px,
+      10px 10px,
+      100% 100%;
+    background-position:
+      7px 7px,
+      calc(100% - 7px) 7px,
+      7px calc(100% - 7px),
+      calc(100% - 7px) calc(100% - 7px),
+      0 0;
+  }
+
+  /* Barras de cobre a los lados de la tarjeta */
+  .decor-bars {
+    position: relative;
+  }
+  .decor-bars::before,
+  .decor-bars::after {
+    content: "";
+    position: absolute;
+    top: 22%;
+    bottom: 22%;
+    width: 4px;
+    border-radius: 2px;
+    background: linear-gradient(
+      180deg,
+      var(--decor-bar-light),
+      var(--decor-bar) 50%,
+      var(--decor-bar-dark)
+    );
+    pointer-events: none;
+  }
+  .decor-bars::before {
+    left: 5px;
+  }
+  .decor-bars::after {
+    right: 5px;
   }
 }

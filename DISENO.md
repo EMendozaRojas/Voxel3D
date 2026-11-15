@@ -59,7 +59,13 @@ Todas son fuentes gratuitas de Google Fonts.
 
 - **Cabecera:** logo a la izquierda y, a la derecha, un panel con borde cobre:
   *Inicio · Productos · Sobre nosotros*, cuenta y carrito (botones redondos
-  de plata de 44 px con contador).
+  de plata de 44 px con contador). El panel tiene **fondo liso** `#111213`
+  (como el buscador), sin los puntos del acero, para que el menú se lea mejor.
+- **Adornos** (en `theme.css`, solo con CSS): `.decor-perforated` (acero
+  perforado), `.decor-line-bottom` / `.decor-line-top` (línea cobre),
+  `.decor-rivets` (remaches sobre el marco de la tarjeta) y `.decor-bars`
+  (barras de cobre). El metal cepillado va directamente en el fondo de la
+  página.
 - **Buscador:** píldora oscura de 52 px de alto con un **cubo voxel** naranja
   a la derecha (el único cubo del diseño). Texto: "Buscar productos 3D de alta
   tecnología…".
