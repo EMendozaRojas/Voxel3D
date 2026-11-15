@@ -10,6 +10,8 @@
  */
 import type { ReactNode } from "react";
 
+import type { CategoryOption } from "@/hooks/useCategoryChips";
+
 import type { NavLink } from "./navigation";
 import type { StockStatus } from "./stock";
 
@@ -85,4 +87,12 @@ export type ProductCardProps = {
   lowStockThreshold: number;
   /** Acción del botón "Añadir al carrito" (llega con el change `cart`). */
   onAddToCart?: () => void;
+};
+
+/** Chips de categoría. */
+export type CategoryChipsProps = {
+  /** Categorías con su nombre corto; la primera suele ser "Todos". */
+  options: CategoryOption[];
+  initialValue?: string;
+  onChange?: (value: string) => void;
 };
