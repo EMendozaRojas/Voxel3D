@@ -10,23 +10,28 @@ afterEach(() => {
   vi.unstubAllGlobals();
 });
 
-// next/font/google solo funciona dentro de Next.js (descarga las fuentes al
-// construir). En los tests, cualquier fuente que importe la carrocería
-// (Russo_One, Quicksand…) devuelve solo su variable CSS: así cada tienda
-// puede elegir sus fuentes sin tocar este archivo.
-vi.mock("next/font/google", () => {
-  const font = (options: { variable?: string } = {}) => ({
+// next/font solo funciona dentro de Next.js (prepara las fuentes al
+// construir). En los tests, cualquier fuente de la carrocería, de Google
+// (Russo_One, Quicksand…) o propia (next/font/local), devuelve solo su
+// variable CSS: así cada tienda elige sus fuentes sin tocar este archivo.
+function fakeFont(options: { variable?: string } = {}) {
+  return {
     className: "font-de-prueba",
     variable: options.variable ?? "",
     style: { fontFamily: "font-de-prueba" },
-  });
+  };
+}
+
+vi.mock("next/font/google", () => {
   // Un objeto que responde a cualquier nombre de fuente ("then" no, para que
   // no se confunda con una promesa).
   return new Proxy(
     {},
     {
       has: (_target, name) => name !== "then",
-      get: (_target, name) => (name === "then" ? undefined : font),
+      get: (_target, name) => (name === "then" ? undefined : fakeFont),
     },
   );
 });
+
+vi.mock("next/font/local", () => ({ default: fakeFont }));

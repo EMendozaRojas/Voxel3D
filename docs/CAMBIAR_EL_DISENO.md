@@ -56,7 +56,22 @@ Actualiza también sus dos tests, que son de la tienda:
 ## 4. Tipografías: `theme/fonts.ts`
 
 Elige fuentes de Google Fonts y cámbialas en el `import` de `next/font/google`.
-Mantén las tres variables (`--font-store-logo`, `--font-store-label`,
+Si la fuente no está en Google (un archivo `.woff2` propio), guárdala en
+`theme/` (por ejemplo `theme/fuentes/mi-fuente.woff2`) y cárgala con
+`next/font/local`:
+
+```ts
+import localFont from "next/font/local";
+
+const logo = localFont({
+  src: "./fuentes/mi-fuente.woff2",
+  variable: "--font-store-logo",
+  display: "swap",
+});
+```
+
+Comprueba que la licencia de la fuente permite usarla en una web. Mantén las
+tres variables (`--font-store-logo`, `--font-store-label`,
 `--font-store-body`) o cambia también su conexión en `theme.css` (bloque
 `@theme inline`) y el test `theme/fonts.test.ts`. El archivo tiene que seguir
 exportando `fontVariables`.
@@ -70,6 +85,32 @@ exportando `fontVariables`.
   el tamaño real del archivo.
 
 La pieza que lo pinta es `theme/layout/Logo.tsx`; puedes cambiarla.
+
+## 5 bis. Imágenes e iconos propios
+
+Guarda las imágenes en `frontend/public/` (por ejemplo
+`frontend/public/iconos/carrito.png`); en el código se escriben sin `public`:
+`/iconos/carrito.png`.
+
+- **En una pieza** (iconos, ilustraciones, logo): usa `next/image`.
+  ```tsx
+  import Image from "next/image";
+
+  <Image src="/iconos/carrito.png" alt="" width={24} height={24} />
+  ```
+  `width` y `height` son el tamaño real del archivo. PNG, JPG y WebP se
+  optimizan solos; SVG se sirve tal cual.
+- **Texto alternativo:** si la imagen es decorativa o va dentro de un botón
+  que ya tiene nombre (`aria-label="Carrito"`), usa `alt=""`. Si da
+  información, describe lo que se ve.
+- **Como fondo o adorno:** en `theme.css`, con
+  `background-image: url("/fondos/estrellas.png")`.
+- Los iconos de la tienda actual son SVG escritos dentro de las piezas
+  (`theme/layout/SiteHeader.tsx`, `theme/layout/BottomNav.tsx`): se pueden
+  cambiar por imágenes.
+
+Usa solo imágenes propias o con licencia que permita usarlas, sin marcas
+registradas.
 
 ## 6. Adornos
 
