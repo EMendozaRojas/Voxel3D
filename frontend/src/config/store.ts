@@ -28,3 +28,7 @@ export { readStoreName };
  * decide en `guest-checkout`.
  */
 export const DEMO_NOTICE = "Modo demostración: no se cobra dinero real.";
+
+/** Idioma y moneda de la tienda (formato de precios y fechas). */
+export const LOCALE = "es-ES";
+export const CURRENCY = "EUR";

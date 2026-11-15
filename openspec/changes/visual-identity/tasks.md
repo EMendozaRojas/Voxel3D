@@ -23,7 +23,7 @@ vista). Ver `design.md`, decisión 1.
 
 ## 3. Piezas sueltas
 
-- [ ] 3.1 Motor: `lib/format.ts` (`formatPrice`: céntimos → `14,90 €`). Carrocería: `theme/ui/Button.tsx` (principal y desactivado); verificar con tests `1490 → "14,90 €"`, `0 → "0,00 €"`, y que el botón desactivado no llama a su acción
+- [x] 3.1 Motor: `lib/format.ts` (`formatPrice`: céntimos → `14,90 €`). Carrocería: `theme/ui/Button.tsx` (principal y desactivado); verificar con tests `1490 → "14,90 €"`, `0 → "0,00 €"`, y que el botón desactivado no llama a su acción
 - [ ] 3.2 Motor: `lib/stock.ts` (`getStockStatus(stock, umbral)` → agotado, quedan N o en stock, con su texto). Carrocería: `theme/ui/StockBadge.tsx`; verificar con tests de la función "Agotado" (0), "Quedan 3" (3, umbral 5) y "En stock" (12, umbral 5), y con un test de vista que la etiqueta muestra el texto que le da el motor
 - [ ] 3.3 Carrocería: `theme/ui/ProductCard.tsx` (marco con remaches, foto con `next/image`, etiqueta de stock, nombre, precio, descripción corta y botón), con sus datos en el contrato; verificar con tests el precio formateado y que un producto agotado muestra "Agotado" con el botón desactivado
 - [ ] 3.4 Motor: `hooks/useCategoryChips.ts` (usa `useDisclosure`, hecho en la 2.4) (chips visibles, resto en "Más" y texto de "Más" al elegir una del panel). Carrocería: `theme/ui/CategoryChips.tsx`; verificar con tests de los *hooks* cada regla y con tests de vista (user-event) que elegir una categoría del panel la marca y cambia el texto de "Más", y que el panel se cierra al pulsar fuera y con `Escape`
