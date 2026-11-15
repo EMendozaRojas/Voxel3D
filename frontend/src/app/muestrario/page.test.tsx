@@ -30,6 +30,16 @@ describe("Muestrario", () => {
     expect(screen.getAllByRole("article")).toHaveLength(4);
   });
 
+  it("explica que el botón y las etiquetas son piezas sueltas", () => {
+    vi.stubEnv("NODE_ENV", "development");
+    render(<ShowcasePage />);
+    expect(
+      screen.getAllByText(
+        "Pieza suelta: en la tienda solo aparece dentro de la tarjeta de producto.",
+      ),
+    ).toHaveLength(2);
+  });
+
   it("en producción no existe (página de no encontrado)", () => {
     vi.stubEnv("NODE_ENV", "production");
     expect(() => render(<ShowcasePage />)).toThrow("NEXT_NOT_FOUND");
