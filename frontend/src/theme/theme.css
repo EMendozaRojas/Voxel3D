@@ -134,6 +134,11 @@
 }
 
 @layer components {
+  /* Brillo naranja y sombra suave del logo de texto */
+  .decor-logo-glow {
+    filter: drop-shadow(0 0 10px rgb(240 149 79 / 0.35)) drop-shadow(0 2px 2px rgb(0 0 0 / 0.6));
+  }
+
   /* Acero perforado: fondo de la cabecera y el pie */
   .decor-perforated {
     background-color: var(--color-header);
