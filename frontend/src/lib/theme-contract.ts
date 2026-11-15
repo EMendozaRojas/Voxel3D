@@ -12,10 +12,24 @@ import type { ReactNode } from "react";
 
 import type { NavLink } from "./navigation";
 
-/** Disposición común de todas las páginas: la carrocería decide dónde va cada cosa. */
+/**
+ * Disposición común de todas las páginas: la carrocería decide dónde va cada
+ * cosa. Los enlaces, el nombre y el aviso de demostración los lee de
+ * `config/`.
+ */
 export type StoreLayoutProps = {
   /** El contenido de la página actual. */
   children: ReactNode;
+  /** Dirección de la página actual (la da el motor con `usePathname`). */
+  currentPath: string;
+  /** Unidades en el carrito; 0 si está vacío. */
+  cartCount: number;
+};
+
+/** Portada. */
+export type HomeViewProps = {
+  /** Estado de la conexión con el servidor (lo prepara el motor). */
+  serverStatus: ReactNode;
 };
 
 /** Cabecera de la tienda. */
