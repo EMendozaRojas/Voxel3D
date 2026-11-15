@@ -10,8 +10,20 @@
  */
 import type { ReactNode } from "react";
 
+import type { NavLink } from "./navigation";
+
 /** Disposición común de todas las páginas: la carrocería decide dónde va cada cosa. */
 export type StoreLayoutProps = {
   /** El contenido de la página actual. */
   children: ReactNode;
+};
+
+/** Cabecera de la tienda. */
+export type SiteHeaderProps = {
+  /** Enlaces del menú (de `config/navigation.ts`). */
+  links: NavLink[];
+  /** Dirección de la página actual, para marcar su enlace (`isActivePath`). */
+  currentPath: string;
+  /** Unidades en el carrito; 0 si está vacío. */
+  cartCount: number;
 };

@@ -58,6 +58,19 @@ const PAIRS: Pair[] = [
     bg: ["--color-header"],
     min: TEXT,
   },
+  // El menú de escritorio va dentro de un panel liso (color del buscador).
+  {
+    name: "menú sobre el panel de la cabecera",
+    fg: "--color-on-header",
+    bg: ["--color-field"],
+    min: TEXT,
+  },
+  {
+    name: "enlace activo sobre el panel de la cabecera",
+    fg: "--color-accent-text",
+    bg: ["--color-field"],
+    min: TEXT,
+  },
   { name: "contador del carrito", fg: "--color-on-badge", bg: ["--color-badge"], min: TEXT },
   {
     name: "botón principal",
