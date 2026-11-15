@@ -1,12 +1,13 @@
 /*
- * Tema de la tienda: todo lo que cambia de aspecto entre una tienda y otra.
+ * Colores, degradados, esquinas y adornos de Voxel3D (parte de la
+ * carrocería). Los valores salen de DISENO.md.
  *
- * Los componentes solo usan los nombres de aquí, que describen el PAPEL de
- * cada color (acento, texto sobre el botón…), nunca el color en sí (cobre,
- * plata…). Otra tienda cambia este archivo y fonts.ts sin tocar ningún
- * componente. Los valores salen de DISENO.md.
+ * Los nombres describen el PAPEL de cada color (acento, texto sobre el
+ * botón…), nunca el color en sí (cobre, plata…), para que las piezas de
+ * Voxel3D se lean con claridad. Otra tienda puede cambiar este archivo
+ * entero o rehacerlo con sus propios nombres.
  *
- * Lista de tokens que todo tema debe definir: theme.tokens.test.ts.
+ * Tokens que usan las piezas de Voxel3D: theme.tokens.test.ts.
  */
 
 /* --- Colores: Tailwind crea las clases (bg-surface, text-accent…) --- */

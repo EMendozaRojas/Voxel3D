@@ -11,7 +11,7 @@ vista). Ver `design.md`, decisión 1.
 - [x] 1.3 Crear `src/theme/theme.css` con los tokens neutros de color, degradados, radios y tamaños de `DISENO.md` (`@theme` de Tailwind) e importarlo desde `globals.css`; verificar que una clase como `bg-surface` o `text-accent` aplica el color del tema
 - [x] 1.4 Escribir `src/theme/theme.contrast.test.ts` que lee `theme.css` y comprueba el contraste de cada pareja de texto y fondo de Voxel3D (≥ 4,5:1, peor extremo en los degradados); proponer a la usuaria el ajuste mínimo de los colores que no cumplan y apuntarlo en `DISENO.md`; verificar que el test pasa y que falla si se empeora un color a propósito (revertir después)
 - [x] 1.5 Dibujar con CSS en `theme.css` los adornos de Voxel3D (acero perforado, metal cepillado, línea de acento, remaches y barras laterales) como clases propias de la carrocería; verificar en el navegador que se ven como en `DISENO.md`
-- [ ] 1.6 Crear `src/lib/theme-contract.ts` (tipos de los datos de cada pieza, se irán completando en los bloques 2 y 3) y el test del motor neutro: ningún archivo de `src/` fuera de `theme/` y `config/` contiene colores hexadecimales, "Voxel3D" ni "cobre"; verificar que el test pasa y que falla si se añade un color a mano en el motor (revertir después)
+- [x] 1.6 Crear `src/lib/theme-contract.ts` (tipos de los datos de cada pieza, se irán completando en los bloques 2 y 3) y el test del motor neutro: ningún archivo de `src/` fuera de `theme/` y `config/` contiene colores hexadecimales, "Voxel3D" ni "cobre"; verificar que el test pasa y que falla si se añade un color a mano en el motor (revertir después)
 
 ## 2. Estructura común de las páginas
 

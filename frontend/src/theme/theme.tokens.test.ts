@@ -4,9 +4,9 @@ import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 
 /**
- * Contrato del tema: los nombres que usan los componentes del motor. Una
- * tienda nueva puede cambiar todos los valores, pero tiene que definirlos
- * todos; si olvida uno, este test le dice cuál.
+ * Tokens que usan las piezas de Voxel3D (carrocería, no motor). Si se borra
+ * uno que una pieza necesita, este test dice cuál. Otra tienda que rehaga su
+ * carrocería cambia esta lista por la suya.
  */
 const REQUIRED_TOKENS = [
   // Colores (Tailwind crea sus clases: bg-page, text-accent…)
