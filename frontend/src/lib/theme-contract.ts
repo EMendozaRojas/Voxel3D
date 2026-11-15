@@ -103,3 +103,9 @@ export type SearchBoxProps = {
   action: string;
   defaultValue?: string;
 };
+
+/** Página de "no encontrado" (404). */
+export type NotFoundViewProps = {
+  /** Dirección de la portada, para volver. */
+  homeHref: string;
+};
