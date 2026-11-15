@@ -103,6 +103,12 @@
       var(--gradient-page);
     background-attachment: fixed;
   }
+
+  /* Foco del teclado: anillo cobre claro bien visible sobre el fondo oscuro */
+  :focus-visible {
+    outline: 2px solid var(--color-accent-text);
+    outline-offset: 2px;
+  }
 }
 
 /*

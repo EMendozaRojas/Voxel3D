@@ -53,6 +53,15 @@ describe("BottomNav", () => {
     );
   });
 
+  it("con el teclado: Más se abre con Enter y Tab llega a sus enlaces", async () => {
+    const user = userEvent.setup();
+    const nav = renderNav();
+    within(nav).getByRole("button", { name: "Más" }).focus();
+    await user.keyboard("{Enter}");
+    await user.tab();
+    expect(within(nav).getByRole("link", { name: "Sobre nosotros" })).toHaveFocus();
+  });
+
   it("el panel se cierra con Escape", async () => {
     const user = userEvent.setup();
     const nav = renderNav();

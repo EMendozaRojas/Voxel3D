@@ -13,14 +13,14 @@ export function SearchBox({ action, defaultValue }: SearchBoxProps) {
       <label htmlFor="buscador" className="sr-only">
         Buscar productos
       </label>
-      <div className="flex h-[52px] items-center gap-2.5 rounded-pill border border-field-border bg-field pr-3.5 pl-5 shadow-[inset_0_2px_6px_rgb(0_0_0/0.7)] focus-within:border-accent">
+      <div className="flex h-[52px] items-center gap-2.5 rounded-pill border border-field-border bg-field pr-3.5 pl-5 shadow-[inset_0_2px_6px_rgb(0_0_0/0.7)] focus-within:border-accent focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-accent-text">
         <input
           id="buscador"
           type="search"
           name="q"
           defaultValue={defaultValue}
           placeholder="Buscar productos 3D de alta tecnología…"
-          className="w-full min-w-0 flex-1 bg-transparent text-on-field placeholder:text-text-muted focus:outline-none"
+          className="h-full w-full min-w-0 flex-1 bg-transparent text-on-field placeholder:text-text-muted focus:outline-none"
         />
         <VoxelCube className="size-7 shrink-0" />
       </div>

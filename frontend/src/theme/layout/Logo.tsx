@@ -14,7 +14,7 @@ type LogoProps = {
 /** Logo de la tienda: siempre enlaza a la portada. */
 export function Logo({ brand = defaultBrand, storeName = STORE_NAME }: LogoProps) {
   return (
-    <Link href="/" className="inline-block shrink-0 leading-none">
+    <Link href="/" className="flex min-h-11 shrink-0 items-center leading-none">
       {brand.type === "image" ? (
         <Image
           src={brand.src}

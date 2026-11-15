@@ -26,7 +26,7 @@ export function SiteHeader({ links, currentPath, cartCount }: SiteHeaderProps) {
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-2.5 sm:py-3.5">
         <Logo />
 
-        <div className="flex items-center gap-4 sm:rounded-pill sm:border-2 sm:border-accent-strong sm:bg-field sm:py-1.5 sm:pr-2 sm:pl-5">
+        <div className="flex items-center gap-4 sm:rounded-pill sm:border-2 sm:border-accent-strong sm:bg-field sm:py-0.5 sm:pr-2 sm:pl-5">
           <nav aria-label="Menú principal" className="hidden sm:block">
             <ul className="flex gap-5">
               {links.map((link) => {
@@ -36,10 +36,10 @@ export function SiteHeader({ links, currentPath, cartCount }: SiteHeaderProps) {
                     <Link
                       href={link.href}
                       aria-current={active ? "page" : undefined}
-                      className={`block border-b-2 py-1 font-label font-semibold tracking-[1px] uppercase ${
+                      className={`flex min-h-11 items-center font-label font-semibold tracking-[1px] uppercase decoration-2 underline-offset-8 ${
                         active
-                          ? "border-accent text-accent-text"
-                          : "border-transparent text-on-header hover:text-accent-text"
+                          ? "text-accent-text underline decoration-accent"
+                          : "text-on-header hover:text-accent-text"
                       }`}
                     >
                       {link.label}

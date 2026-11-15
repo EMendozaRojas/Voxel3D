@@ -67,30 +67,6 @@ export function BottomNav({ links, moreLinks, currentPath }: BottomNavProps) {
       className="decor-perforated decor-line-top fixed inset-x-0 bottom-0 z-40 pb-[env(safe-area-inset-bottom,0px)] sm:hidden"
     >
       <div ref={containerRef}>
-        <div
-          id="panel-mas"
-          hidden={!isOpen}
-          className="absolute inset-x-0 bottom-full rounded-t-card border-t-2 border-accent-strong bg-header px-4 pt-4 pb-5 shadow-[0_-12px_30px_rgb(0_0_0/0.5)]"
-        >
-          <ul className="grid gap-1">
-            {moreLinks.map((link) => {
-              const active = isActivePath(currentPath, link.href);
-              return (
-                <li key={link.href}>
-                  <Link
-                    href={link.href}
-                    aria-current={active ? "page" : undefined}
-                    onClick={close}
-                    className={`flex min-h-11 items-center px-2 font-label font-semibold tracking-[1px] uppercase ${itemColor(active)}`}
-                  >
-                    {link.label}
-                  </Link>
-                </li>
-              );
-            })}
-          </ul>
-        </div>
-
         <ul className="grid h-16 grid-cols-4">
           {links.map((link) => {
             const active = isActivePath(currentPath, link.href);
@@ -120,6 +96,32 @@ export function BottomNav({ links, moreLinks, currentPath }: BottomNavProps) {
             </button>
           </li>
         </ul>
+
+        {/* Después del botón en el código, para que Tab llegue a sus enlaces;
+            se coloca encima de la barra con `bottom-full`. */}
+        <div
+          id="panel-mas"
+          hidden={!isOpen}
+          className="absolute inset-x-0 bottom-full rounded-t-card border-t-2 border-accent-strong bg-header px-4 pt-4 pb-5 shadow-[0_-12px_30px_rgb(0_0_0/0.5)]"
+        >
+          <ul className="grid gap-1">
+            {moreLinks.map((link) => {
+              const active = isActivePath(currentPath, link.href);
+              return (
+                <li key={link.href}>
+                  <Link
+                    href={link.href}
+                    aria-current={active ? "page" : undefined}
+                    onClick={close}
+                    className={`flex min-h-11 items-center px-2 font-label font-semibold tracking-[1px] uppercase ${itemColor(active)}`}
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
       </div>
     </nav>
   );
