@@ -20,7 +20,7 @@ export function SearchBox({ action, defaultValue }: SearchBoxProps) {
           name="q"
           defaultValue={defaultValue}
           placeholder="Buscar productos 3D de alta tecnología…"
-          className="min-w-0 flex-1 bg-transparent text-on-field placeholder:text-text-muted focus:outline-none"
+          className="w-full min-w-0 flex-1 bg-transparent text-on-field placeholder:text-text-muted focus:outline-none"
         />
         <VoxelCube className="size-7 shrink-0" />
       </div>

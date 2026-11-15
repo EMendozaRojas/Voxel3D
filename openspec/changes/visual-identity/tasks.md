@@ -31,7 +31,7 @@ vista). Ver `design.md`, decisión 1.
 
 ## 4. Muestrario y revisión
 
-- [ ] 4.1 Crear `/muestrario` (motor) con datos de ejemplo sin marcas registradas, que muestra las piezas de la carrocería puesta y devuelve "no encontrado" en producción; verificar con tests que en desarrollo muestra todas las piezas y que con `NODE_ENV=production` llama a `notFound()`
+- [x] 4.1 Crear `/muestrario` (motor) con datos de ejemplo sin marcas registradas, que muestra las piezas de la carrocería puesta y devuelve "no encontrado" en producción; verificar con tests que en desarrollo muestra todas las piezas y que con `NODE_ENV=production` llama a `notFound()`
 - [ ] 4.2 Revisión visual con la usuaria: comparar el muestrario y la portada con `DISENO.md` y las maquetas en escritorio y móvil, y ajustar lo que pida; verificar que da el visto bueno
 - [ ] 4.3 Comprobar la accesibilidad básica: navegar con el teclado por cabecera, chips y barra inferior (foco visible, `Escape` cierra el panel) y medir que los objetivos táctiles miden al menos 44 px; verificar anotando el resultado en el PR
 - [ ] 4.4 Pasar todas las comprobaciones (`npm run lint`, `format:check`, `tsc`, `test:coverage` ≥ 70% y `pre-commit run --all-files`); verificar que todo termina en verde

@@ -8,8 +8,9 @@ import type { CategoryChipsProps } from "@/lib/theme-contract";
 /** En el móvil se ven tres chips; el resto, en el panel "Más". */
 const VISIBLE_ON_MOBILE = 3;
 
-const chip =
-  "inline-flex min-h-11 items-center rounded-pill border px-4 font-label font-semibold tracking-[1px] uppercase";
+const chipShape =
+  "min-h-11 items-center rounded-pill border px-4 font-label font-semibold tracking-[1px] uppercase";
+const chip = `inline-flex ${chipShape}`;
 const chipColor = (active: boolean) =>
   active
     ? "border-transparent bg-chip-active bg-(image:--gradient-chip-active) text-on-chip-active"
@@ -54,7 +55,7 @@ export function CategoryChips({ options, initialValue, onChange }: CategoryChips
           type="button"
           aria-pressed={selected === option.value}
           onClick={() => select(option.value)}
-          className={`${chip} ${chipColor(selected === option.value)} hidden sm:inline-flex`}
+          className={`hidden sm:inline-flex ${chipShape} ${chipColor(selected === option.value)}`}
         >
           {option.label}
         </button>

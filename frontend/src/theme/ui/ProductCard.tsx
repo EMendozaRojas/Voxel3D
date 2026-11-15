@@ -21,7 +21,7 @@ export function ProductCard({ product, lowStockThreshold, onAddToCart }: Product
   return (
     <article
       aria-labelledby={titleId}
-      className="decor-rivets decor-bars grid gap-2 rounded-card border border-chip-border px-5 pt-[18px] pb-5 shadow-[0_10px_24px_rgb(0_0_0/0.35),inset_0_1px_0_rgb(255_255_255/0.12)]"
+      className="decor-rivets decor-bars grid min-w-0 gap-2 rounded-card border border-chip-border px-4 pt-4 pb-4 sm:px-5 sm:pt-[18px] sm:pb-5 shadow-[0_10px_24px_rgb(0_0_0/0.35),inset_0_1px_0_rgb(255_255_255/0.12)]"
     >
       <div className="relative grid aspect-[4/3] place-items-center overflow-hidden rounded-[10px] bg-photo bg-(image:--gradient-photo)">
         {product.image ? (
@@ -40,7 +40,7 @@ export function ProductCard({ product, lowStockThreshold, onAddToCart }: Product
         </span>
       </div>
 
-      <h3 id={titleId} className="mt-1 text-lg font-bold">
+      <h3 id={titleId} className="mt-1 text-lg font-bold break-words">
         {product.name}
       </h3>
       <p className="text-xl font-bold tabular-nums">{formatPrice(product.priceCents)}</p>
