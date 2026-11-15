@@ -30,11 +30,15 @@ Cada página SHALL mostrar un pie con el aviso "Modo demostración: no se cobra 
 - **THEN** el pie muestra el aviso de modo demostración
 
 ### Requirement: Barra inferior en el móvil
-En pantallas estrechas, cada página SHALL mostrar una barra inferior fija con Inicio, Productos, Cuenta y Más, y SHALL ocultarla en escritorio.
+En pantallas estrechas, cada página SHALL mostrar una barra inferior fija con los enlaces Inicio, Productos y Cuenta y un botón Más que abre un panel desde abajo con el resto de enlaces, y SHALL ocultarla en escritorio.
 
 #### Scenario: Navegación en el móvil
 - **WHEN** la persona abre la web en un móvil
-- **THEN** ve la barra inferior con sus cuatro enlaces y la opción de la página actual marcada con `aria-current="page"`
+- **THEN** ve la barra inferior con Inicio, Productos, Cuenta y Más, y la opción de la página actual marcada con `aria-current="page"`
+
+#### Scenario: Panel Más
+- **WHEN** la persona pulsa Más en la barra inferior
+- **THEN** se abre un panel desde abajo con el resto de enlaces, el botón anuncia que está abierto (`aria-expanded`) y el panel se cierra con `Escape`, pulsando fuera o eligiendo un enlace
 
 ### Requirement: Accesibilidad de la estructura
 Los elementos de la estructura SHALL usar elementos reales (`<header>`, `<nav>`, `<main>`, `<footer>`, `<a>`, `<button>`), los botones con solo icono SHALL tener nombre accesible, y los objetivos táctiles SHALL medir al menos 44 px.

@@ -13,10 +13,12 @@ export const headerLinks: NavLink[] = [
   { label: "Sobre nosotros", href: "/sobre-nosotros" },
 ];
 
-/** Barra inferior (móvil). */
+/** Barra inferior (móvil). Al final va siempre el botón «Más». */
 export const bottomNavLinks: NavLink[] = [
   { label: "Inicio", href: "/" },
   { label: "Productos", href: "/productos" },
   { label: "Cuenta", href: "/cuenta" },
-  { label: "Más", href: "/mas" },
 ];
+
+/** Enlaces del panel que abre «Más» en la barra inferior. */
+export const moreLinks: NavLink[] = [{ label: "Sobre nosotros", href: "/sobre-nosotros" }];

@@ -21,3 +21,10 @@ function readStoreName(value: string | undefined): string {
 export const STORE_NAME: string = readStoreName(process.env.NEXT_PUBLIC_STORE_NAME);
 
 export { readStoreName };
+
+/**
+ * Aviso que se ve en todas las páginas mientras los pagos son de prueba
+ * (Stripe en modo de pruebas). Dónde vive la configuración de la tienda se
+ * decide en `guest-checkout`.
+ */
+export const DEMO_NOTICE = "Modo demostración: no se cobra dinero real.";

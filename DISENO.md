@@ -91,7 +91,10 @@ Todas son fuentes gratuitas de Google Fonts.
   más o menos categorías.
 - **Rejilla de dos columnas.** El botón de cada tarjeta dice "Añadir".
 - **Barra inferior** de 64 px con el mismo estilo de acero: *Inicio ·
-  Productos · Cuenta · Más*.
+  Productos · Cuenta · Más*. **Más** no cambia de página: abre un **panel desde
+  abajo** con el resto de enlaces (*Sobre nosotros*…), como en las apps. Se
+  cierra con `Escape`, pulsando fuera o eligiendo un enlace (decidido el
+  2026-11-15).
 
 ## Contenido
 

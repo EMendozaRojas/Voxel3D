@@ -27,3 +27,20 @@ export type SiteHeaderProps = {
   /** Unidades en el carrito; 0 si está vacío. */
   cartCount: number;
 };
+
+/** Pie de la tienda. */
+export type SiteFooterProps = {
+  storeName: string;
+  /** Aviso de modo demostración: tiene que verse en todas las páginas. */
+  demoNotice: string;
+};
+
+/** Barra inferior del móvil. */
+export type BottomNavProps = {
+  /** Enlaces fijos de la barra. */
+  links: NavLink[];
+  /** Enlaces del panel que abre el botón «Más». */
+  moreLinks: NavLink[];
+  /** Dirección de la página actual, para marcar su enlace (`isActivePath`). */
+  currentPath: string;
+};
