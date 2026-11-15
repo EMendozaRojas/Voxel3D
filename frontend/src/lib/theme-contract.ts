@@ -96,3 +96,10 @@ export type CategoryChipsProps = {
   initialValue?: string;
   onChange?: (value: string) => void;
 };
+
+/** Buscador. Envía la búsqueda como `?q=…` a la página que diga el motor. */
+export type SearchBoxProps = {
+  /** Página que muestra los resultados (p. ej. "/productos"). */
+  action: string;
+  defaultValue?: string;
+};
