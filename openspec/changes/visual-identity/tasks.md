@@ -38,7 +38,7 @@ vista). Ver `design.md`, decisión 1.
 
 ## 5. Prueba de libertad con otra IA
 
-- [ ] 5.1 Escribir `AGENTS.md` en la raíz (qué cambia una tienda: `src/theme/`, `src/config/`, `.env`; qué no: el resto; cómo comprobarlo) y la guía `docs/CAMBIAR_EL_DISENO.md` paso a paso; verificar que cada ruta y comando citado existe y funciona
+- [x] 5.1 Escribir `AGENTS.md` en la raíz (qué cambia una tienda: `src/theme/`, `src/config/`, `.env`; qué no: el resto; cómo comprobarlo) y la guía `docs/CAMBIAR_EL_DISENO.md` paso a paso; verificar que cada ruta y comando citado existe y funciona
 - [ ] 5.2 Prueba: en un clon aparte y la rama `prueba/sakuribella-diseno` (no se sube ni se une), la usuaria pide a otra IA el aspecto de Sakuribella con solo esa documentación; verificar anotando en `openspec/changes/visual-identity/prueba-sakuribella.md` qué archivos tocó, si pasan el test del motor neutro, `tsc` y los tests de la lógica, dónde se atascó y cuánto tardó
 - [ ] 5.3 Corregir en el motor o en la documentación cada atasco de la prueba, un commit por corrección; verificar que cada atasco anotado tiene su corrección o una decisión de dejarlo para más adelante
 
