@@ -33,14 +33,19 @@ export function ProductCard({ product, lowStockThreshold, onAddToCart }: Product
             className="object-contain"
           />
         ) : (
-          <VoxelCube className="w-1/3" />
+          // En móvil, el cubo es más pequeño y baja un poco para no quedar
+          // debajo de la etiqueta de stock (solo pasa con el marcador; una
+          // foto real ocupa toda la caja y la etiqueta va encima a propósito).
+          <VoxelCube className="mt-6 w-1/4 sm:mt-0 sm:w-1/3" />
         )}
         <span className="absolute top-2 left-2">
           <StockBadge status={status} />
         </span>
       </div>
 
-      <h3 id={titleId} className="mt-1 text-lg font-bold break-words">
+      {/* Reserva siempre dos líneas para el nombre: así el precio y el botón
+          quedan a la misma altura en todas las tarjetas de una fila. */}
+      <h3 id={titleId} className="mt-1 min-h-[2lh] text-lg font-bold break-words">
         {product.name}
       </h3>
       <p className="text-xl font-bold tabular-nums">{formatPrice(product.priceCents)}</p>
