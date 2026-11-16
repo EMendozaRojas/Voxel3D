@@ -15,6 +15,12 @@
   <img src="https://img.shields.io/badge/licencia-MIT-green" alt="Licencia MIT">
 </p>
 
+<p align="center">
+  <img src="docs/capturas/muestrario.png" alt="Piezas de la tienda Voxel3D en escritorio y en móvil: cabecera de acero perforado con el logo en cobre, buscador, chips de categoría y tarjetas de producto con marco metálico y remaches" width="900">
+  <br>
+  <sub>Piezas de la tienda en escritorio y móvil (página de muestrario, solo en desarrollo). Los cubos ocupan el lugar de las fotos reales.</sub>
+</p>
+
 ---
 
 ## ¿Qué es?
@@ -33,9 +39,11 @@ Es también un **proyecto de aprendizaje y de portafolio**, y una
 y en los datos, nunca en el código. El nombre de la tienda, por ejemplo, sale
 de la variable `STORE_NAME`.
 
-**Estado:** esqueleto técnico terminado. Base de datos, API, web, tests,
-Docker, revisiones automáticas y CI funcionan de punta a punta; la tienda
-todavía no vende. Ver la [hoja de ruta](#hoja-de-ruta).
+**Estado:** esqueleto técnico e identidad visual terminados. Base de datos,
+API, web, tests, Docker, revisiones automáticas y CI funcionan de punta a
+punta, y la web ya tiene su aspecto (cabecera, pie, menú del móvil y piezas
+como la tarjeta de producto). La tienda todavía no vende. Ver la
+[hoja de ruta](#hoja-de-ruta).
 
 ### Un motor, varias tiendas
 
@@ -43,6 +51,12 @@ Al terminar el MVP, el motor se separará en su propio repositorio,
 **Chasis**: como el chasis de un coche, es el mismo esqueleto con distinta
 carrocería encima. Cada tienda es un repositorio "hijo" enlazado al padre, del
 que recibe las mejoras.
+
+En el frontend ya están separados: la **lógica** (precios, stock, abrir y
+cerrar paneles…) es del motor, y **todo el aspecto** vive en
+`frontend/src/theme/`. Cada tienda puede rehacer su diseño por completo,
+también la forma y la colocación de las piezas, siguiendo
+[`docs/CAMBIAR_EL_DISENO.md`](docs/CAMBIAR_EL_DISENO.md).
 
 ```
                  Chasis (motor neutro)
@@ -148,8 +162,12 @@ Voxel3D/
 ├── frontend/             # web (Next.js)
 │   └── src/
 │       ├── app/          # páginas
+│       ├── lib/ hooks/   # lógica del motor (precios, stock, paneles…)
+│       ├── config/       # configuración de la tienda (nombre, menús)
+│       ├── theme/        # aspecto de la tienda: colores, fuentes, logo y piezas
 │       ├── features/     # una carpeta por funcionalidad (de momento, health)
-│       └── components/   # piezas compartidas
+│       └── components/   # piezas compartidas del motor
+├── docs/                 # guía para cambiar el diseño y capturas
 ├── openspec/             # especificaciones y planes de cada cambio
 ├── .github/              # CI y Dependabot
 └── docker-compose.yml
@@ -177,7 +195,9 @@ Voxel3D es un proyecto de **desarrollo asistido por IA** hecho con método:
 - [x] **Esqueleto técnico:** Docker Compose, base de datos con migraciones,
       API con `/health` documentada, web conectada, tests, pre-commit, CI y
       Dependabot
-- [ ] **Identidad visual:** tema en un único archivo, logo y componentes base
+- [x] **Identidad visual:** motor y aspecto separados, colores y fuentes en
+      tokens, logo, cabecera, pie, menú del móvil, piezas base, contrastes
+      comprobados con tests y guía para cambiar el diseño
 - [ ] **Usuarios y roles:** registro, inicio de sesión y administradora
 - [ ] **Catálogo:** categorías, atributos, productos, variantes e imágenes
 - [ ] **Carrito** en el servidor, también para invitadas

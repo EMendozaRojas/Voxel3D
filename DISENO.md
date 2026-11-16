@@ -17,29 +17,35 @@ protagonistas: las fotos van sobre fondo blanco dentro de un marco metálico.
 
 ## Colores
 
-| Uso | Valor |
-|---|---|
-| Fondo de página | degradado `#3a3d41` → `#232528` → `#2d3034` con líneas verticales finas (metal cepillado) |
-| Cabecera y pie | fondo `#1b1c1e` con puntos `#08080a` (acero perforado, patrón de 7 px; 6 px en móvil) |
-| Línea bajo la cabecera y sobre el pie | cobre `#b8651d` (4 px; 3 px en móvil) |
-| Texto principal | `#f1f1f1` |
-| Texto secundario | `#d4d7db` (material, pie y menús) |
-| Acento de texto (enlace activo) | cobre claro `#e0904f` |
-| Acento de línea | `#d9772f` (subrayado del menú activo) |
-| Barras laterales de la tarjeta | `#cf6a24` |
-| Marco de la tarjeta | degradado `#5a5e64` → `#2e3135` → `#212326`, con remaches `#c1c6cc` / `#4b4f55` en las esquinas |
-| Foto del producto | fondo blanco `#ffffff` → `#ececea` |
-| Etiqueta de stock | degradado `#b4571f` → `#963f14`, texto blanco |
-| Filtro / categoría activa | degradado `#e8924c` → `#d2711f`, texto `#17181a` |
-| Filtro / categoría inactiva | degradado `#3b3e42` → `#26282b`, texto `#f1f1f1`, borde `#55595f` |
-| Botón principal (plata) | degradado `#d6d9dd` → `#a5a9ae` → `#8a8e93`, texto `#17181a` |
-| Botón agotado | degradado `#4a4d52` → `#34373b`, texto `#cfd3d8` |
-| Buscador | fondo `#111213`, borde `#50545a`, sombra interior |
-| Botones redondos (cuenta, carrito) | plata `#e0e3e7` → `#8a8e94`, icono `#1b1c1e` |
-| Contador del carrito | fondo `#a9531e`, texto blanco |
+| Uso | Valor | Token en `theme.css` |
+|---|---|---|
+| Fondo de página | degradado `#3a3d41` → `#232528` → `#2d3034` con líneas verticales finas (metal cepillado) | `--gradient-page` (liso: `--color-page`) |
+| Cabecera y pie | fondo `#1b1c1e` con puntos `#08080a` (acero perforado, patrón de 7 px; 6 px en móvil) | `--color-header`, adorno `.decor-perforated` |
+| Línea bajo la cabecera y sobre el pie | cobre `#b8651d` (4 px; 3 px en móvil) | `--color-accent-strong` |
+| Texto principal | `#f1f1f1` | `--color-text` |
+| Texto secundario | `#d4d7db` (material, pie y menús) | `--color-text-muted`, `--color-on-header` |
+| Acento de texto (enlace activo) | cobre claro `#e0904f` | `--color-accent-text` |
+| Acento de línea | `#d9772f` (subrayado del menú activo) | `--color-accent` |
+| Barras laterales de la tarjeta | `#cf6a24` | `--decor-bar`, adorno `.decor-bars` |
+| Marco de la tarjeta | degradado `#5a5e64` → `#2e3135` → `#212326`, con remaches `#c1c6cc` / `#4b4f55` en las esquinas | `--gradient-surface`, `--color-surface-border`, adorno `.decor-rivets` |
+| Foto del producto | fondo blanco `#ffffff` → `#ececea` | `--gradient-photo` |
+| Etiqueta de stock | degradado `#b4571f` → `#963f14`, texto blanco | `--gradient-stock`, `--color-on-stock` |
+| Filtro / categoría activa | degradado `#e8924c` → `#d2711f`, texto `#17181a` | `--gradient-chip-active`, `--color-on-chip-active` |
+| Filtro / categoría inactiva | degradado `#3b3e42` → `#26282b`, texto `#f1f1f1`, borde `#55595f` | `--gradient-chip`, `--color-on-chip`, `--color-chip-border` |
+| Botón principal (plata) | degradado `#d6d9dd` → `#a5a9ae` → `#8a8e93`, texto `#17181a` | `--gradient-button`, `--color-on-button` |
+| Botón agotado | degradado `#4a4d52` → `#34373b`, texto `#cfd3d8` | `--gradient-button-disabled`, `--color-on-button-disabled` |
+| Buscador y panel del menú | fondo `#111213`, borde `#50545a`, sombra interior | `--color-field`, `--color-field-border` |
+| Botones redondos (cuenta, carrito) | plata `#e0e3e7` → `#8a8e94`, icono `#1b1c1e` | `--gradient-icon-button`, `--color-on-icon-button` |
+| Contador del carrito | fondo `#a9531e`, texto blanco | `--color-badge`, `--color-on-badge` |
+| Esquinas | tarjeta 16 px; chips, buscador y botones en píldora | `--radius-card`, `--radius-pill` |
 
-> **Contraste comprobado** por `frontend/src/theme/theme.contrast.test.ts`:
-> 4,5:1 para texto y 3:1 para iconos, contra el punto más desfavorable de cada
+Los nombres de los tokens dicen **para qué sirve** el color (`accent`, `surface`),
+nunca **cuál es** (`cobre`): así otra tienda cambia el valor sin que el nombre
+mienta. Cada degradado tiene un color liso de respaldo con el mismo papel. Lo
+comprueba `frontend/src/theme/theme.tokens.test.ts`.
+
+> **Contraste comprobado** por `frontend/src/theme/theme.contrast.test.ts`
+> (14 parejas de texto y fondo): 4,5:1 para texto y 3:1 para iconos, contra el punto más desfavorable de cada
 > degradado. Único ajuste (2026-11-15): el texto secundario pasó de `#c9cdd2`
 > a `#d4d7db`, porque sobre la parte clara del marco de la tarjeta (`#5a5e64`)
 > daba 4,08:1; ahora da 4,52:1. Se eligió aclarar el texto en vez de
@@ -109,15 +115,28 @@ Todas son fuentes gratuitas de Google Fonts.
 ## Accesibilidad
 
 - Objetivos táctiles de **al menos 44 px**.
-- Contraste de texto de al menos **4,5:1** (a verificar, ver arriba).
+- Contraste de texto de al menos **4,5:1** y de iconos de al menos **3:1**,
+  comprobado por un test (ver [Colores](#colores)).
+- Anillo de foco visible (2 px, `--color-accent-text`) en todo lo que se
+  puede usar con el teclado, y enlace "Saltar al contenido" al principio.
+- Revisión completa del 2026-11-15 en
+  `openspec/changes/visual-identity/revision-accesibilidad.md`.
 - Iconos sin texto llevan `aria-label`; el buscador lleva su `<label>`.
 - Se usan elementos reales (`<button>`, `<a>`, `<input>`), nunca un `<div>`
   con `onClick`.
 
 ## Pendiente de diseño
 
-- Logo en imagen, más fiel al aspecto metálico, en el change `visual-identity`.
 - Pantallas todavía sin maquetar: detalle de producto, carrito, checkout,
   cuenta del cliente y panel de administración. Se diseñan siguiendo este
   documento, con su propio change.
-- Mover los valores de esta página a tokens de Tailwind.
+
+Resuelto en `visual-identity` (2026-11-16):
+
+- **Valores pasados a tokens** de Tailwind en `frontend/src/theme/theme.css`
+  (tabla de [Colores](#colores)).
+- **Logo en imagen:** el motor ya lo permite (`frontend/src/theme/brand.ts`,
+  tipo `image`). Voxel3D sigue con el logo de texto; si algún día se dibuja
+  uno en imagen, basta con cambiar ese archivo.
+- **Dónde vive cada cosa:** todo el aspecto está en `frontend/src/theme/`
+  (la carrocería). Cómo cambiarlo, en `docs/CAMBIAR_EL_DISENO.md`.

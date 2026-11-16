@@ -81,15 +81,19 @@ Objetivo del proyecto: proyecto de aprendizaje de desarrollo asistido por IA y
 junior en Madrid. Por eso se usan herramientas que se piden en ofertas junior,
 sin sobreingeniería.
 
-**Estado:** esqueleto técnico (`project-skeleton`) terminado y archivado:
-base de datos con migraciones, API con `GET /api/v1/health` documentada,
-portada que muestra si hay conexión con la API, tests con cobertura,
-pre-commit, CI, Dependabot y `main` protegida. Todavía no hay ninguna regla de
-negocio. Siguiente change: `visual-identity`. Cómo funciona hoy cada parte
-está en `openspec/specs/` (de momento: `local-environment`, `quality-gates` y
-`service-health`); los changes terminados, en `openspec/changes/archive/`; las
-ideas futuras, en `openspec/changes/` como fichas (solo propuesta) que **no se
-implementan durante el MVP** salvo decisión explícita.
+**Estado:** `project-skeleton` terminado y archivado (base de datos con
+migraciones, API con `GET /api/v1/health`, tests con cobertura, pre-commit,
+CI, Dependabot y `main` protegida). `visual-identity` casi terminado: chasis y
+carrocería separados, carrocería de Voxel3D (tokens, fuentes, logo, cabecera,
+pie, barra inferior móvil, piezas sueltas), página `/muestrario` (solo en
+desarrollo), 404 propia, revisión de accesibilidad, `AGENTS.md` y
+`docs/CAMBIAR_EL_DISENO.md`. La prueba con otra IA (tareas 5.2 y 5.3) queda
+**aplazada** hasta tener una IA que trabaje con los archivos. Todavía no hay
+ninguna regla de negocio. Siguiente change: `users-auth-roles`. Cómo funciona
+hoy cada parte está en `openspec/specs/`; los changes terminados, en
+`openspec/changes/archive/`; las ideas futuras, en `openspec/changes/` como
+fichas (solo propuesta) que **no se implementan durante el MVP** salvo
+decisión explícita.
 
 ## Alcance del MVP
 
@@ -194,6 +198,8 @@ Lo marcado con *(llegará)* aún no existe; se crea en el change indicado.
 ```
 Voxel3D/
 ├── CLAUDE.md · BUENAS_PRACTICAS.md · DISENO.md · README.md · LICENSE (MIT)
+├── AGENTS.md            # instrucciones para cualquier IA que cambie el diseño
+├── docs/CAMBIAR_EL_DISENO.md  # guía paso a paso para crear otra carrocería
 ├── docker-compose.yml   # db, backend, frontend y mailpit
 ├── .env.example         # plantilla de configuración, sin secretos
 ├── .pre-commit-config.yaml
@@ -219,10 +225,15 @@ Voxel3D/
 │   └── Dockerfile       # etapas base, dev y prod
 └── frontend/
     ├── src/
-    │   ├── app/         # rutas de Next.js (portada, layout)
+    │   ├── app/         # rutas de Next.js: portada, layout, 404 y /muestrario (solo desarrollo)
     │   ├── features/    # una carpeta por funcionalidad; hoy solo health/
-    │   ├── components/  # piezas compartidas (Providers de TanStack Query)
-    │   ├── lib/         # api.ts: dirección de la API
+    │   ├── components/  # motor: Providers (TanStack Query) y StoreShell (une motor y carrocería)
+    │   ├── lib/         # motor: api.ts, format.ts (precios), stock.ts, navigation.ts y
+    │   │                #   theme-contract.ts (los tipos que debe cumplir la carrocería)
+    │   ├── hooks/       # motor: useDisclosure (abrir/cerrar paneles), useCategoryChips
+    │   ├── config/      # configuración de la tienda: store.ts, navigation.ts, showcase.ts
+    │   ├── theme/       # CARROCERÍA: theme.css (tokens y adornos), fonts.ts, brand.ts,
+    │   │                #   layout/ (cabecera, pie, barra inferior, logo), pages/ y ui/ (piezas)
     │   └── test/        # preparación común de los tests de Vitest
     ├── e2e/             # (llegará) tests de Playwright
     ├── AGENTS.md        # aviso de Next.js: leer su documentación en node_modules
@@ -372,8 +383,9 @@ Formato: decisión · alternativas que se miraron · por qué.
   cambie colores, fuentes y logo, o que edite las piezas del motor · el diseño
   de cada tienda tiene que ser libre (también la forma de las piezas) y las
   mejoras del motor tienen que llegarle sin conflictos. Se valida pidiendo a
-  otra IA el aspecto de Sakuribella con solo la documentación (al final de
-  `visual-identity`) y la tienda completa (al final del MVP).
+  otra IA el aspecto de Sakuribella con solo la documentación (prevista al
+  final de `visual-identity`, aplazada el 2026-11-16) y la tienda completa (al
+  final del MVP).
 - **Atributos configurables desde el panel** · filtros y variantes escritos en
   el código · así cada tienda define sus propias características (acabado en
   Voxel3D, baño o talla en Sakuribella) sin tocar el código.
@@ -389,6 +401,10 @@ Formato: decisión · alternativas que se miraron · por qué.
   una tienda pequeña y mantiene simple el menú del móvil. "Filamentos" no es
   una categoría: seda, mármol o madera son un acabado que cualquier producto
   puede tener. "Novedades" y "Más vendidos" son ordenaciones calculadas.
+- **Logo de texto con opción de imagen** · solo imagen, solo texto · el texto
+  con CSS se ve nítido en cualquier tamaño y no necesita diseñar un archivo;
+  `theme/brand.ts` admite una imagen para la tienda que la quiera (resuelto en
+  `visual-identity`).
 - **Diseño metálico** (opción B de las maquetas) · versión simplificada
   (opción A) · es la identidad que más gusta a la autora; ver `DISENO.md`.
 - **Todo en español y precios en euros** · multiidioma · el público objetivo es
@@ -410,5 +426,5 @@ Formato: decisión · alternativas que se miraron · por qué.
 | Dónde vive la configuración de la tienda (moneda, tarifa de envío, aviso "Modo demostración"): `.env` o panel de administración | `guest-checkout` |
 | Cookies `HttpOnly` o tokens para la sesión | `users-auth-roles` |
 | Plataforma de despliegue y proveedor de email real | `deployment` |
-| Logo en imagen, más fiel que el hecho con CSS | `visual-identity` |
 | Lista y fotos de los productos de ejemplo (diseños sin marcas registradas) | `catalog-and-products` |
+| Cuándo hacer la prueba del diseño libre con otra IA (tareas 5.2 y 5.3 de `visual-identity`, aplazadas) | cuando haya una IA con acceso a los archivos, o al final del MVP |

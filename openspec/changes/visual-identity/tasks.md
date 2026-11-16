@@ -46,7 +46,7 @@ vista). Ver `design.md`, decisión 1.
 
 ## 6. Documentación
 
-- [ ] 6.1 Actualizar `DISENO.md` (nombres de los tokens, adornos, contrastes medidos y pendientes resueltos), `CLAUDE.md` (estado, estructura con motor y carrocería, pendiente "logo en imagen" resuelto) y el README (hoja de ruta y, si la usuaria quiere, primera captura); verificar que las rutas y nombres citados existen
+- [x] 6.1 Actualizar `DISENO.md` (nombres de los tokens, adornos, contrastes medidos y pendientes resueltos), `CLAUDE.md` (estado, estructura con motor y carrocería, pendiente "logo en imagen" resuelto) y el README (hoja de ruta y, si la usuaria quiere, primera captura); verificar que las rutas y nombres citados existen
 
 ## 7. Integración final
 
