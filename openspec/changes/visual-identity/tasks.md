@@ -39,8 +39,10 @@ vista). Ver `design.md`, decisión 1.
 ## 5. Prueba de libertad con otra IA
 
 - [x] 5.1 Escribir `AGENTS.md` en la raíz (qué cambia una tienda: `src/theme/`, `src/config/`, `.env`; qué no: el resto; cómo comprobarlo) y la guía `docs/CAMBIAR_EL_DISENO.md` paso a paso; verificar que cada ruta y comando citado existe y funciona
-- [ ] 5.2 Prueba: en un clon aparte y la rama `prueba/sakuribella-diseno` (no se sube ni se une), la usuaria pide a otra IA el aspecto de Sakuribella con solo esa documentación; verificar anotando en `openspec/changes/visual-identity/prueba-sakuribella.md` qué archivos tocó, si pasan el test del motor neutro, `tsc` y los tests de la lógica, dónde se atascó y cuánto tardó
-- [ ] 5.3 Corregir en el motor o en la documentación cada atasco de la prueba, un commit por corrección; verificar que cada atasco anotado tiene su corrección o una decisión de dejarlo para más adelante
+- [ ] 5.2 (APLAZADA, 2026-11-16) Prueba: en un clon aparte y la rama `prueba/sakuribella-diseno` (no se sube ni se une), la usuaria pide a otra IA el aspecto de Sakuribella con solo esa documentación; verificar anotando en `openspec/changes/visual-identity/prueba-sakuribella.md` qué archivos tocó, si pasan el test del motor neutro, `tsc` y los tests de la lógica, dónde se atascó y cuánto tardó
+- [ ] 5.3 (APLAZADA, 2026-11-16) Corregir en el motor o en la documentación cada atasco de la prueba, un commit por corrección; verificar que cada atasco anotado tiene su corrección o una decisión de dejarlo para más adelante
+
+> **Aplazadas por decisión de la autora (2026-11-16):** la prueba necesita una IA que trabaje con los archivos del repositorio (por ejemplo, Codex), y por ahora no hay acceso. Se hará más adelante o junto con la prueba completa al terminar el MVP. `AGENTS.md` y `docs/CAMBIAR_EL_DISENO.md` (5.1) ya están listos para ese momento.
 
 ## 6. Documentación
 
