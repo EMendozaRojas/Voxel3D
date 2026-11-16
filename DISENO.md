@@ -45,7 +45,7 @@ mienta. Cada degradado tiene un color liso de respaldo con el mismo papel. Lo
 comprueba `frontend/src/theme/theme.tokens.test.ts`.
 
 > **Contraste comprobado** por `frontend/src/theme/theme.contrast.test.ts`
-> (14 parejas de texto y fondo): 4,5:1 para texto y 3:1 para iconos, contra el punto más desfavorable de cada
+> (16 parejas de texto y fondo): 4,5:1 para texto y 3:1 para iconos, contra el punto más desfavorable de cada
 > degradado. Único ajuste (2026-11-15): el texto secundario pasó de `#c9cdd2`
 > a `#d4d7db`, porque sobre la parte clara del marco de la tarjeta (`#5a5e64`)
 > daba 4,08:1; ahora da 4,52:1. Se eligió aclarar el texto en vez de
