@@ -51,7 +51,7 @@ vista). Ver `design.md`, decisión 1.
 ## 7. Integración final
 
 - [x] 7.1 Subir la rama `feat/visual-identity` y abrir su Pull Request (con tu confirmación); verificar que los cuatro chequeos de la CI terminan en verde
-- [ ] 7.2 Archivar el change (`docs: archiva visual-identity`) como último commit de la rama, con las specs pasadas a `openspec/specs/`; verificar que la CI sigue en verde y que la historia va de `docs: plan` a `docs: archiva`
+- [x] 7.2 Archivar el change (`docs: archiva visual-identity`) como último commit de la rama, con las specs pasadas a `openspec/specs/`; verificar que la CI sigue en verde y que la historia va de `docs: plan` a `docs: archiva`
 
 ## Workflow follow-up
 
