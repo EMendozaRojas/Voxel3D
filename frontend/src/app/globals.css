@@ -1,3 +1,2 @@
 @import "tailwindcss";
-
-/* Los colores y tipografías de cada tienda llegan con su tema (change visual-identity). */
+@import "../theme/theme.css";

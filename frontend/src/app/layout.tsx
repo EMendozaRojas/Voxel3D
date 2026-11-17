@@ -1,19 +1,25 @@
 import type { Metadata } from "next";
 
 import { Providers } from "@/components/Providers";
+import { StoreShell } from "@/components/StoreShell";
+import { STORE_NAME } from "@/config/store";
+import { fontVariables } from "@/theme/fonts";
 
 import "./globals.css";
 
-// Título genérico: el nombre de la tienda llegará desde la configuración.
+// La portada se titula con el nombre de la tienda; cada página nueva solo
+// pone el suyo ("Carrito") y Next.js añade detrás " · <tienda>".
 export const metadata: Metadata = {
-  title: "Estado del servidor",
+  title: { default: STORE_NAME, template: `%s · ${STORE_NAME}` },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="es" className="h-full antialiased">
+    <html lang="es" className={`${fontVariables} h-full antialiased`}>
       <body className="flex min-h-full flex-col">
-        <Providers>{children}</Providers>
+        <Providers>
+          <StoreShell>{children}</StoreShell>
+        </Providers>
       </body>
     </html>
   );

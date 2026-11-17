@@ -50,10 +50,12 @@ services:
     build:
       context: ./frontend
       target: dev
-    # Solo la variable que necesita, no todo el .env: el frontend no debe
+    # Solo las variables que necesita, no todo el .env: el frontend no debe
     # tener las contraseñas del backend.
     environment:
       NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL}
+      # El nombre de la tienda se escribe una sola vez, en STORE_NAME.
+      NEXT_PUBLIC_STORE_NAME: ${STORE_NAME}
     # Se monta todo frontend/ (así ESLint, Prettier y los tests ven siempre
     # tu versión de cada archivo), salvo node_modules y .next, que se quedan
     # en volúmenes propios del contenedor y no se mezclan con el ordenador.

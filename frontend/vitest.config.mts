@@ -8,6 +8,9 @@ export default defineConfig({
   test: {
     environment: "jsdom",
     setupFiles: ["./src/test/setup.ts"],
+    // Un nombre que no es de ninguna tienda real: así los tests demuestran
+    // que el nombre llega de la configuración y no está escrito en el código.
+    env: { NEXT_PUBLIC_STORE_NAME: "Tienda de prueba" },
     coverage: {
       provider: "v8",
       // Todo el código de src/ cuenta, también los archivos que ningún test
